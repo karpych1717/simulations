@@ -1,0 +1,81 @@
+body {
+    font-family: 'American Typewriter', sans-serif;
+    background-color: LightGreen;
+}
+
+header {
+  height: 55px;
+
+  background-color: MediumSeaGreen;
+
+  border: 2px solid DarkCyan;
+  border-radius: 15px;
+}
+
+nav {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.header-link {
+  text-decoration: none;
+  font-size: 24px;
+  line-height: 2;
+  font-weight: 600;
+  color: Black;
+
+  padding: 10px;
+  margin: 15px;
+}
+
+#about-link {
+  background-color: DarkCyan; 
+
+  border: 1px solid DarkCyan;
+  border-radius: 0 0 15px 15px;
+}
+
+#logo {
+  vertical-align: top;
+  float: right;
+
+  width: 47px;
+  height: 47px;
+
+  padding: 4px;
+
+  border-radius: 15px;
+}
+
+
+
+  
+h1, h2 {
+    text-align: center;
+  }
+  
+h3 {
+    color: DarkSlateGrey;
+    text-align: center;
+  }
+  
+  table {
+    border: 2px solid DarkCyan;
+    width: 650px;
+    margin: 0 auto;
+
+    background-color: MediumSeaGreen;
+  }
+  
+  thead {
+    background-color: DarkCyan;
+  }
+  
+  td {
+    border-top: 1px solid LightGreen;
+  }
+  
+  .code {
+    font-family: monospace;
+    background-color: PapayaWhip;
+  }

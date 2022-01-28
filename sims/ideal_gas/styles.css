@@ -46,3 +46,7 @@ nav {
 
     border-radius: 15px;
 }
+
+canvas {
+    background-color: White;
+}

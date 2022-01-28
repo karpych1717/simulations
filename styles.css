@@ -28,7 +28,7 @@ nav {
     margin: 15px;
 }
 
-#sims-link {
+#sims-list-link {
     background-color: DarkCyan; 
 
     border: 1px solid DarkCyan;
@@ -45,4 +45,22 @@ nav {
     padding: 4px;
 
     border-radius: 15px;
+}
+
+.sims-list {
+    margin: 25px;
+}
+
+.sim-link {
+    display: inline-block;
+    padding: 10px;
+    margin: 25px;
+
+    color: Black;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+
+    background-color: DarkCyan;
+    border-radius: 10px;
 }

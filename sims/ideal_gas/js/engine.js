@@ -94,18 +94,9 @@ for (let i = 0; i < AmountOfInfos; i++) {
 }
 
 const clearInfos = () => {
-    let MaxInfo = 1;
-    for (const info of infos) {
-        if (info.ave > MaxInfo) {
-            MaxInfo = info.ave;
-        }
-    }
-
     for (const info of infos) {
         InfoCTX.fillStyle = '#ffffff';
-        InfoCTX.fillRect(0, info.y, 500 * info.ave / MaxInfo, 25);
-        InfoCTX.fillStyle = '#ffffff';
-        //InfoCTX.fillText(info.val, 0, info.y + 25);
+        InfoCTX.fillRect(0, info.y, 500, 25);
     }
 }
 

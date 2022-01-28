@@ -28,13 +28,6 @@ nav {
     margin: 15px;
 }
 
-#sims-link {
-    background-color: DarkCyan; 
-
-    border: 1px solid DarkCyan;
-    border-radius: 0 0 15px 15px;
-}
-
 #logo {
     vertical-align: top;
     float: right;
@@ -49,4 +42,5 @@ nav {
 
 canvas {
     background-color: White;
+    margin: 15px;
 }

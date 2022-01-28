@@ -80,9 +80,7 @@ const StepInfos = BoxHeight / AmountOfInfos;
 
 const createNumber = (index) => {
     return {y: StepInfos * index,
-            val: 0,
-            pre: 0,
-            prePre: 0,
+            val: [],
             ave: 0,
         }
 }
@@ -102,17 +100,19 @@ const clearInfos = () => {
 
 const countInfos = () => {
     for (const key in infos) {
-        infos[key].prePre = infos[key].pre;
-        infos[key].pre = infos[key].val;
-        infos[key].val = 0;
+        infos[key].val.unshift(0);
+
+        if (infos[key].val.length > 10) {
+            infos[key].val.pop();
+        }
 
         for (const ball of balls) {
             if (ball.y > infos[key].y && ball.y <= (infos[key].y + StepInfos) ) {
-                infos[key].val += 1;
+                infos[key].val[0] += 1;
             }
         }
 
-        infos[key].ave = ( infos[key].val + infos[key].pre + infos[key].prePre) / 3;
+        infos[key].ave = infos[key].val.reduce( (prevVal, curVal) => prevVal + curVal );
     }
 }
 

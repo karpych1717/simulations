@@ -31,7 +31,6 @@ nav {
 #about-link {
   background-color: DarkCyan; 
 
-  border: 1px solid DarkCyan;
   border-radius: 0 0 15px 15px;
 }
 
@@ -46,36 +45,3 @@ nav {
 
   border-radius: 15px;
 }
-
-
-
-  
-h1, h2 {
-    text-align: center;
-  }
-  
-h3 {
-    color: DarkSlateGrey;
-    text-align: center;
-  }
-  
-  table {
-    border: 2px solid DarkCyan;
-    width: 650px;
-    margin: 0 auto;
-
-    background-color: MediumSeaGreen;
-  }
-  
-  thead {
-    background-color: DarkCyan;
-  }
-  
-  td {
-    border-top: 1px solid LightGreen;
-  }
-  
-  .code {
-    font-family: monospace;
-    background-color: PapayaWhip;
-  }

@@ -5,7 +5,6 @@ body {
 
 header {
   height: 55px;
-  width: 100%;
 
   background-color: MediumSeaGreen;
 
@@ -30,8 +29,6 @@ nav {
 }
 
 #sims-link {
-  color: Black;
-
   background-color: DarkCyan; 
 
   border: 1px solid DarkCyan;
@@ -39,7 +36,8 @@ nav {
 }
 
 #logo {
-  float: right; 
+  vertical-align: top;
+  float: right;
 
   width: 47px;
   height: 47px;
@@ -48,6 +46,7 @@ nav {
 
   border-radius: 15px;
 }
+
 
 
   

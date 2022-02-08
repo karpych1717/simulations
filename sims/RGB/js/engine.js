@@ -18,50 +18,73 @@ speedRange.oninput = () => {
     speed = speedRange.value;
 };
 
-//circle parameters
-let angle = 0;
 
-let color_1 = 'rgb(255, 0, 0)';
-let color_2 = 'rgb(0, 255, 0)';
-let color_3 = 'rgb(0, 0, 255)';
+class Circle {
+    constructor() {
+        this.first  = {red: 255, green: 0,   blue: 0,};
+        this.second = {red: 0,   green: 255, blue: 0,};
+        this.third  = {red: 0,   green: 0,   blue: 255};
 
-let cx = 250;
-let cy = 250;
-let r = 150;
+        this.r = 150;
 
+        this.cx = 250;
+        this.cy = 250;
+        
+        this.direction = 1;
+        this.angle = 0;
+    };
 
+    get first_color() {
+        return 'rgb(' + this.first.red + ',' + this.first.green + ',' + this.first.blue + ')';
+    };
 
-const drawCircle = () => {
-    ctx.fillStyle = color_1;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, angle + 0, angle + Math.PI * 2 / 3);
-    ctx.lineTo(cx, cy);
-    ctx.fill();
+    get second_color() {
+        return 'rgb(' + this.second.red + ',' + this.second.green + ',' + this.second.blue + ')';
+    };
 
-    ctx.fillStyle = color_2;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, angle + Math.PI * 2 / 3, angle + Math.PI * 4 / 3);
-    ctx.lineTo(cx, cy);
-    ctx.fill();
+    get third_color() {
+        return 'rgb(' + this.third.red + ',' + this.third.green + ',' + this.third.blue + ')';
+    };
 
-    ctx.fillStyle = color_3;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, angle + Math.PI * 4 / 3, angle + Math.PI * 2);
-    ctx.lineTo(cx, cy);
-    ctx.fill();
+    draw(ctx) {
+        ctx.fillStyle = this.first_color;
+        ctx.beginPath();
+        ctx.moveTo(this.cx, this.cy);
+        ctx.arc(this.cx, this.cy, this.r,
+            this.direction * this.angle + 0, this.direction * this.angle + Math.PI * 2 / 3);
+        ctx.lineTo(this.cx, this.cy);
+        ctx.fill();
+
+        ctx.fillStyle = this.second_color;
+        ctx.beginPath();
+        ctx.moveTo(this.cx, this.cy);
+        ctx.arc(this.cx, this.cy, this.r,
+            this.direction * this.angle + Math.PI * 2 / 3, this.direction * this.angle + Math.PI * 4 / 3);
+        ctx.lineTo(this.cx, this.cy);
+        ctx.fill();
+
+        ctx.fillStyle = this.third_color;
+        ctx.beginPath();
+        ctx.moveTo(this.cx, this.cy);
+        ctx.arc(this.cx, this.cy, this.r,
+            this.direction * this.angle + Math.PI * 4 / 3, this.direction * this.angle + Math.PI * 2);
+        ctx.lineTo(this.cx, this.cy);
+        ctx.fill();
+        //alert('s');
+    };
+
+    rotate(speed) {
+        this.angle += speed / 180 * Math.PI;
+    };
+
 };
 
+const circle1 = new Circle;
+
 function render() {
-    angle += speed / 180 * Math.PI;
-
-    if (angle > 2 * Math.PI) {
-        angle = angle - 2 * Math.PI;
-    }
-
-    drawCircle();
+    circle1.rotate(speed);
+    
+    circle1.draw(ctx);
 
     requestAnimationFrame(render);
 }

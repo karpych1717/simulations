@@ -9,6 +9,9 @@ cvs.height = BoxHeight;
 cvs.width  = BoxWidth;
 cvs.style.border  = '2px solid green';
 
+ctx.lineWidth = 5;
+ctx.strokeStyle = 'white';
+
 
 let speed = 1;
 const speedRange = document.getElementById('speed');
@@ -70,7 +73,12 @@ class Circle {
             this.direction * this.angle + Math.PI * 4 / 3, this.direction * this.angle + Math.PI * 2);
         ctx.lineTo(this.cx, this.cy);
         ctx.fill();
-        //alert('s');
+
+        ctx.beginPath();
+        ctx.arc(this.cx, this.cy, this.r,
+            0, Math.PI * 2);
+        ctx.stroke();
+
     };
 
     rotate(speed) {

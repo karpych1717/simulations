@@ -12,7 +12,7 @@ cvs.style.border  = '2px solid green';
 
 //drawing
 const RGBPic = new Image();
-RGBPic.src  = 'img/RGB_2.png';
+RGBPic.src  = 'img/RGB_3.png';
 
 const draw = () => {
     ctx.drawImage(RGBPic, 100, 100, 300, 300);

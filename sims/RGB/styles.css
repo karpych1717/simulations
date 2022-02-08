@@ -41,6 +41,27 @@ nav {
 }
 
 canvas {
+    display: inline-block;
     background-color: White;
     margin: 15px;
+}
+
+.ranges {
+    display: inline-block;
+    vertical-align:top;
+
+    margin: 15px;
+    width: 500px;
+}
+
+#speed {
+    display: block;
+    width: 90%;
+    margin: 10px 15px;
+}
+
+.sector-ranges {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
 }

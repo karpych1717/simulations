@@ -11,6 +11,7 @@ cvs.style.border  = '2px solid green';
 
 ctx.lineWidth = 5;
 ctx.strokeStyle = 'white';
+ctx.font = '40px serif';
 
 
 let speed = 1;
@@ -89,10 +90,43 @@ class Circle {
 
 const circle1 = new Circle;
 
+
+let dt = 0;
+let current_time  = new Date().getTime();
+let previous_time = current_time;
+
+let fps_array = [];
+let current_fps = 0;
+let avarage_fps = 0;
+let fps_array_max_length = 10;
+
+
 function render() {
     circle1.rotate(speed);
     
     circle1.draw(ctx);
+
+    current_time = new Date().getTime();
+    dt = current_time - previous_time;
+    previous_time = current_time;
+
+    current_fps = Math.floor(1000 / dt);
+    if ( fps_array.length < fps_array_max_length ) {
+        fps_array.push(current_fps);
+    } else if ( fps_array.length === fps_array_max_length ) {
+        avarage_fps  = fps_array.reduce( (prevVal, curVal) => prevVal + curVal );
+        avarage_fps /= fps_array_max_length;
+        avarage_fps  = Math.floor(avarage_fps);
+
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, 105, 50);
+        ctx.fillStyle = '#ffff00';
+        ctx.fillText(avarage_fps, 5, 40, 100);
+
+        fps_array.length = 0;
+    }
+
+    
 
     requestAnimationFrame(render);
 }

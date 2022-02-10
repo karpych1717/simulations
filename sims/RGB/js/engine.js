@@ -32,6 +32,7 @@ speedRange.oninput = () => {
     speed = speedRange.value;
 };
 
+
 //Circle
 class Circle {
     constructor() {
@@ -120,11 +121,91 @@ circle2.mix   = function(circle) {
     this.third.blue  = Math.max(circle1.third.blue,  circle1.first.blue);
 };
 
-
 circle2.mix(circle1);
 
 
+//color ranges
+const sector_1       = document.getElementById('sector-1');
+const sector_1_red   = document.getElementById('sector-1-red');
+const sector_1_green = document.getElementById('sector-1-green');
+const sector_1_blue  = document.getElementById('sector-1-blue');
 
+const sector_2       = document.getElementById('sector-2');
+const sector_2_red   = document.getElementById('sector-2-red');
+const sector_2_green = document.getElementById('sector-2-green');
+const sector_2_blue  = document.getElementById('sector-2-blue');
+
+const sector_3       = document.getElementById('sector-3');
+const sector_3_red   = document.getElementById('sector-3-red');
+const sector_3_green = document.getElementById('sector-3-green');
+const sector_3_blue  = document.getElementById('sector-3-blue');
+
+sector_1.style.backgroundColor = 'rgb(255, 0, 0)';
+sector_1_red.value   = 255;
+sector_1_green.value = 0;
+sector_1_blue.value  = 0;
+
+sector_2.style.backgroundColor = 'rgb(0, 255, 0)';
+sector_2_red.value   = 0;
+sector_2_green.value = 255;
+sector_2_blue.value  = 0;
+
+sector_3.style.backgroundColor = 'rgb(0, 0, 255)';
+sector_3_red.value   = 0;
+sector_3_green.value = 0;
+sector_3_blue.value  = 255;
+
+
+sector_1_red.oninput   = () => {
+    circle1.first.red   = sector_1_red.value;
+    sector_1.style.backgroundColor = circle1.first_color;
+    circle2.mix(circle1);
+};
+sector_1_green.oninput = () => {
+    circle1.first.green = sector_1_green.value;
+    sector_1.style.backgroundColor = circle1.first_color;
+    circle2.mix(circle1);
+};
+sector_1_blue.oninput  = () => {
+    circle1.first.blue  = sector_1_blue.value;
+    sector_1.style.backgroundColor = circle1.first_color;
+    circle2.mix(circle1);
+};
+
+sector_2_red.oninput   = () => {
+    circle1.second.red   = sector_2_red.value;
+    sector_2.style.backgroundColor = circle1.second_color;
+    circle2.mix(circle1);
+};
+sector_2_green.oninput = () => {
+    circle1.second.green = sector_2_green.value;
+    sector_2.style.backgroundColor = circle1.second_color;
+    circle2.mix(circle1);
+};
+sector_2_blue.oninput  = () => {
+    circle1.second.blue  = sector_2_blue.value;
+    sector_2.style.backgroundColor = circle1.second_color;
+    circle2.mix(circle1);
+};
+
+sector_3_red.oninput   = () => {
+    circle1.third.red   = sector_3_red.value;
+    sector_3.style.backgroundColor = circle1.third_color;
+    circle2.mix(circle1);
+};
+sector_3_green.oninput = () => {
+    circle1.third.green = sector_3_green.value;
+    sector_3.style.backgroundColor = circle1.third_color;
+    circle2.mix(circle1);
+};
+sector_3_blue.oninput  = () => {
+    circle1.third.blue  = sector_3_blue.value;
+    sector_3.style.backgroundColor = circle1.third_color;
+    circle2.mix(circle1);
+};
+
+
+//FPS counter prep
 let dt = 0;
 let current_time  = new Date().getTime();
 let previous_time = current_time;

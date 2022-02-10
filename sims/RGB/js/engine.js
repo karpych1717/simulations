@@ -1,6 +1,6 @@
 //canvas
 const cvs = document.getElementById('boxCanvas');
-const ctx = cvs.getContext('2d');
+const ctx = cvs.getContext('2d', {alpha: false});
 
 const pre_cvs = document.createElement("canvas");
 const pre_ctx = pre_cvs.getContext('2d');
@@ -13,14 +13,14 @@ cvs.height = BoxHeight;
 cvs.width  = BoxWidth;
 cvs.style.border  = '2px solid green';
 
-ctx.font = '40px serif';
-
 
 pre_cvs.height = BoxHeight;
 pre_cvs.width  = BoxWidth;
 
-pre_ctx.lineWidth = 6;
+pre_ctx.lineWidth = 7;
 pre_ctx.strokeStyle = 'white';
+
+pre_ctx.font = '40px serif';
 
 
 //rotation speed
@@ -101,6 +101,29 @@ class Circle {
 
 //render prep
 const circle1 = new Circle;
+const circle2 = new Circle;
+
+circle2.angle = Math.PI / 3;
+circle2.r     = 125;
+
+circle2.mix   = function(circle) {
+    this.first.red   = Math.max(circle1.first.red,   circle1.second.red);
+    this.first.green = Math.max(circle1.first.green, circle1.second.green);
+    this.first.blue  = Math.max(circle1.first.blue,  circle1.second.blue);
+
+    this.second.red   = Math.max(circle1.second.red,   circle1.third.red);
+    this.second.green = Math.max(circle1.second.green, circle1.third.green);
+    this.second.blue  = Math.max(circle1.second.blue,  circle1.third.blue);
+
+    this.third.red   = Math.max(circle1.third.red,   circle1.first.red);
+    this.third.green = Math.max(circle1.third.green, circle1.first.green);
+    this.third.blue  = Math.max(circle1.third.blue,  circle1.first.blue);
+};
+
+
+circle2.mix(circle1);
+
+
 
 let dt = 0;
 let current_time  = new Date().getTime();
@@ -115,15 +138,19 @@ let fps_array_max_length = 10;
 //render function
 function render() {
     circle1.rotate(speed);
+    circle2.rotate(speed);
     
+
     circle1.draw(pre_ctx);
-    ctx.drawImage(pre_cvs, 0, 0);
+    circle2.draw(pre_ctx);
+    
 
     current_time = new Date().getTime();
     dt = current_time - previous_time;
     previous_time = current_time;
 
     current_fps = Math.floor(1000 / dt);
+
     if ( fps_array.length < fps_array_max_length ) {
         fps_array.push(current_fps);
     } else if ( fps_array.length >= fps_array_max_length ) {
@@ -131,15 +158,16 @@ function render() {
         avarage_fps /= fps_array_max_length;
         avarage_fps  = Math.floor(avarage_fps);
 
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, 105, 50);
-        ctx.fillStyle = '#ffff00';
-        ctx.fillText(avarage_fps, 5, 40, 100);
+        pre_ctx.fillStyle = '#000000';
+        pre_ctx.fillRect(0, 0, 90, 55);
+        pre_ctx.fillStyle = '#ffff00';
+        pre_ctx.fillText(avarage_fps, 5, 40, 80);
 
         fps_array.length = 0;
     }
 
-    
+
+    ctx.drawImage(pre_cvs, 0, 0);
 
     requestAnimationFrame(render);
 }

@@ -104,7 +104,7 @@ const circle1 = new Circle;
 const circle2 = new Circle;
 
 circle2.angle = Math.PI / 3;
-circle2.r     = 125;
+circle2.r     = 100;
 
 circle2.mix   = function(circle) {
     this.first.red   = Math.max(circle1.first.red,   circle1.second.red);

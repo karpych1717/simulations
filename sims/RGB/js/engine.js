@@ -264,11 +264,22 @@ let avarage_fps = 0;
 let fps_array_max_length = 10;
 
 
+
+
 //render function
 function render() {
     circle1.rotate(speed);
     circle2.rotate(speed);
     
+
+    pre_ctx.fillStyle = 'black';
+    pre_ctx.fillRect(0, 0, BoxWidth, BoxHeight);
+
+    pre_ctx.fillStyle = '#000000';
+    pre_ctx.fillRect(0, 0, 90, 55);
+    pre_ctx.fillStyle = '#ffff00';
+    pre_ctx.fillText(avarage_fps, 5, 40, 80);
+
 
     circle1.draw(pre_ctx);
     circle2.draw(pre_ctx);
@@ -288,12 +299,6 @@ function render() {
         avarage_fps  = fps_array.reduce( (prevVal, curVal) => prevVal + curVal );
         avarage_fps /= fps_array_max_length;
         avarage_fps  = Math.floor(avarage_fps);
-
-        pre_ctx.fillStyle = '#000000';
-        pre_ctx.fillRect(0, 0, 90, 55);
-        pre_ctx.fillStyle = '#ffff00';
-        pre_ctx.fillText(avarage_fps, 5, 40, 80);
-
         fps_array.length = 0;
     }
 

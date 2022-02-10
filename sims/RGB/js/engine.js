@@ -87,10 +87,8 @@ class Circle {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(this.cx, this.cy, this.r,
-            0, Math.PI * 2);
+        ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
         ctx.stroke();
-
     };
 
     rotate(speed) {
@@ -122,6 +120,38 @@ circle2.mix   = function(circle) {
 };
 
 circle2.mix(circle1);
+
+const solidCircle = {
+    red:   255,
+    green: 255,
+    blue:  255,
+
+    r: 35,
+
+    cx: 250,
+    cy: 250,
+
+    get color() {
+        return 'rgb(' + this.red + ',' + this.green + ',' + this.blue + ')';
+    },
+
+    mix(circle) {
+        this.red   = Math.max(circle.first.red,   circle.second.red,   circle.third.red);
+        this.green = Math.max(circle.first.green, circle.second.green, circle.third.green);
+        this.blue  = Math.max(circle.first.blue,  circle.second.red,   circle.third.blue);
+    },
+
+    draw(ctx) {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
+        ctx.stroke();
+    },
+}
 
 
 //color ranges
@@ -159,49 +189,67 @@ sector_3_blue.value  = 255;
 sector_1_red.oninput   = () => {
     circle1.first.red   = sector_1_red.value;
     sector_1.style.backgroundColor = circle1.first_color;
+
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_1_green.oninput = () => {
     circle1.first.green = sector_1_green.value;
     sector_1.style.backgroundColor = circle1.first_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_1_blue.oninput  = () => {
     circle1.first.blue  = sector_1_blue.value;
     sector_1.style.backgroundColor = circle1.first_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 
 sector_2_red.oninput   = () => {
     circle1.second.red   = sector_2_red.value;
     sector_2.style.backgroundColor = circle1.second_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_2_green.oninput = () => {
     circle1.second.green = sector_2_green.value;
     sector_2.style.backgroundColor = circle1.second_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_2_blue.oninput  = () => {
     circle1.second.blue  = sector_2_blue.value;
     sector_2.style.backgroundColor = circle1.second_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 
 sector_3_red.oninput   = () => {
     circle1.third.red   = sector_3_red.value;
     sector_3.style.backgroundColor = circle1.third_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_3_green.oninput = () => {
     circle1.third.green = sector_3_green.value;
     sector_3.style.backgroundColor = circle1.third_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 sector_3_blue.oninput  = () => {
     circle1.third.blue  = sector_3_blue.value;
     sector_3.style.backgroundColor = circle1.third_color;
+    
     circle2.mix(circle1);
+    solidCircle.mix(circle2);
 };
 
 
@@ -224,6 +272,8 @@ function render() {
 
     circle1.draw(pre_ctx);
     circle2.draw(pre_ctx);
+
+    solidCircle.draw(pre_ctx);
     
 
     current_time = new Date().getTime();

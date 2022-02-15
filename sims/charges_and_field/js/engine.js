@@ -145,7 +145,7 @@ window.addEventListener('pointerup', releaseTarget);
 
 const balls = [];
 
-for(let i = 0; i < 1; i++) {
+for(let i = 0; i < 5; i++) {
     balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300, 10, 1, true, balls));
 }
 

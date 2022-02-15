@@ -41,6 +41,8 @@ nav {
 }
 
 canvas {
+    touch-action: none;
+    
     background-color: White;
     margin: 15px;
 }

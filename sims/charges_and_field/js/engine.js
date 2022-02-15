@@ -202,7 +202,6 @@ render();
 
 
 function targetOnClick(event) {
-    //event.preventDefault();
     for(let i = 0; i < balls.length; i++ ) {
         if( balls[balls.length - 1 - i].distance({x: event.offsetX, y: event.offsetY}) < balls[balls.length - 1 - i].r) {
             movingBall = balls[balls.length - 1 - i];
@@ -233,7 +232,7 @@ function moveByMouse(event) {
         movingBall.x = event.offsetX + relativeX;
         movingBall.y = event.offsetY + relativeY;
     }
-    event.preventDefault();
+    //event.preventDefault();
 }
 
 function releaseTarget(event) {

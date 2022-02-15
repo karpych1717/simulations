@@ -135,17 +135,17 @@ let relativeY = 0;
 
 
 //events
-cvs.addEventListener('mousedown', targetOnClick);
+cvs.addEventListener('pointerdown', targetOnClick);
 
-cvs.addEventListener('mousemove', moveByMouse);
+cvs.addEventListener('pointermove', moveByMouse);
 
-window.addEventListener('mouseup', releaseTarget);
+window.addEventListener('pointerup', releaseTarget);
 
 
 
 const balls = [];
 
-for(let i = 0; i < 5; i++) {
+for(let i = 0; i < 1; i++) {
     balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300, 10, -1, true, balls));
 }
 
@@ -202,6 +202,7 @@ render();
 
 
 function targetOnClick(event) {
+    //event.preventDefault();
     for(let i = 0; i < balls.length; i++ ) {
         if( balls[balls.length - 1 - i].distance({x: event.offsetX, y: event.offsetY}) < balls[balls.length - 1 - i].r) {
             movingBall = balls[balls.length - 1 - i];

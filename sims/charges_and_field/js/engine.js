@@ -232,7 +232,6 @@ function moveByMouse(event) {
         movingBall.x = event.offsetX + relativeX;
         movingBall.y = event.offsetY + relativeY;
     }
-    //event.preventDefault();
 }
 
 function releaseTarget(event) {

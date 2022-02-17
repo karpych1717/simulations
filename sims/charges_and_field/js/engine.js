@@ -108,12 +108,53 @@ class Arrow {
         this.x = x;
         this.y = y;
 
+        this.Fx = 0;
+        this.Fy = 0;
+
         this.angle   = angle;
         this.opacity = opacity;
 
         this.picture = arrowPic;
 
-        this.balls = balls;
+        //this.relatives = relatives;
+        this.balls     = balls;
+    }
+
+    countForceAndAngle() {
+        this.Fx = 0;
+        this.Fy = 0;
+
+
+        for(const ball of balls) {
+            tempRx = this.x + 13 - ball.x;
+            tempRy = this.y + 4 - ball.y;
+
+            tempR  = Math.sqrt( tempRx**2 + tempRy**2 );
+
+            tempFx = ball.charge / tempR**3 * tempRx;
+            tempFy = ball.charge / tempR**3 * tempRy;
+
+            this.Fx += tempFx;
+            this.Fy += tempFy;
+        }
+
+
+        this.angle = Math.atan(this.Fy / this.Fx);
+        if(this.Fx < 0) {
+            this.angle += Math.PI;
+        }
+    }
+
+    drawIt(ctx) {
+        ctx.translate(this.x + 13, this.y + 4);
+        ctx.rotate(this.angle);
+        ctx.translate(-13 - this.x, -4 - this.y);
+
+        ctx.drawImage(this.picture, this.x, this.y);
+
+        ctx.translate(this.x + 13, this.y + 4);
+        ctx.rotate(-this.angle);
+        ctx.translate(-13 - this.x, -4 - this.y);
     }
 }
 
@@ -128,6 +169,16 @@ const BoxHeight = 500;
 cvs.width  = BoxWidth;
 cvs.height = BoxHeight;
 cvs.style.border  = '2px solid green';
+
+
+const pre_cvs = document.createElement("canvas");
+const pre_ctx = pre_cvs.getContext('2d');
+
+pre_cvs.height = BoxHeight;
+pre_cvs.width  = BoxWidth;
+
+pre_ctx.fillStyle = 'white';
+
 
 let movingBall = null;
 let relativeX = 0;
@@ -145,9 +196,18 @@ window.addEventListener('pointerup', releaseTarget);
 
 const balls = [];
 
-for(let i = 0; i < 5; i++) {
+for(let i = 0; i < 3; i++) {
     balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300, 10, 1, true, balls));
 }
+
+const arrows = [];
+
+for(let i = 0; i < 500; i += 25) {
+    for(let j = 8; j < 500; j += 25) {
+        arrows.push( new Arrow(i, j, 0, balls, 1) );
+    }
+}
+
 
 
 // Time watch;
@@ -168,15 +228,25 @@ function render() {
 
     dtHalf = dt / 2;
 
-    ctx.clearRect(0, 0, BoxWidth, BoxHeight);
-    for(const ball of balls) {
-        ball.drawIt(ctx);
+    pre_ctx.fillRect(0, 0, BoxWidth, BoxHeight);
+
+    for(const arrow of arrows) {
+        arrow.drawIt(pre_ctx);
     }
+
+    for(const ball of balls) {
+        ball.drawIt(pre_ctx);
+    }
+
+
+    ctx.drawImage(pre_cvs, 0, 0);
+
 
     for(const ball of balls) {
         if( ball === movingBall ) continue;
         ball.countForce();
     }
+    
 
     for(const ball of balls) {
         if( ball === movingBall ) continue;
@@ -186,6 +256,10 @@ function render() {
     for(const ball of balls) {
         if( ball === movingBall ) continue;
         ball.countForce();
+    }
+
+    for(const arrow of arrows) {
+        arrow.countForceAndAngle();
     }
 
     for(const ball of balls) {

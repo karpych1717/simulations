@@ -143,9 +143,12 @@ class Arrow {
         if(this.Fx < 0) {
             this.angle += Math.PI;
         }
+
+        this.opacity = 1 - Math.exp( -1000 *(Math.abs(this.Fx) + Math.abs(this.Fy)) );
     }
 
     drawIt(ctx) {
+        ctx.globalAlpha = this.opacity;
         ctx.translate(this.x + 13, this.y + 4);
         ctx.rotate(this.angle);
         ctx.translate(-13 - this.x, -4 - this.y);
@@ -155,6 +158,7 @@ class Arrow {
         ctx.translate(this.x + 13, this.y + 4);
         ctx.rotate(-this.angle);
         ctx.translate(-13 - this.x, -4 - this.y);
+        ctx.globalAlpha = 1;
     }
 }
 

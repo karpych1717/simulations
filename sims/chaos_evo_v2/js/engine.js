@@ -361,27 +361,46 @@ axes.slidersInit();
 
 const buttons = [];
 
+buttons.push( new Button('Q', AXES_X + AXES_WIDTH + 20, AXES_Y + AXES_HEIGHT + 20, 50, 50) );
+buttons[0].click = () => {axes.seriesInit(), axes.slidersInit()};
+
 buttons.push( new Button('+1',   AXES_X + AXES_WIDTH + 20, 70)  );
-buttons[0].click = () => axes.evolve();
+buttons[1].click = () => axes.evolve();
 
 buttons.push( new Button('+10',  AXES_X + AXES_WIDTH + 20, 140) );
-buttons[1].click = () => axes.evolve(10);
+buttons[2].click = () => axes.evolve(10);
 
 buttons.push( new Button('+100', AXES_X + AXES_WIDTH + 20, 210) );
-buttons[2].click = () => axes.evolve(100);
+buttons[3].click = () => axes.evolve(100);
 
-buttons.push( new Button('0', AXES_X, AXES_Y + AXES_HEIGHT + 20, 50, 50) );
-buttons[3].click = () => axes.seriesInit();
+buttons.push( new Button('Chaos 0', AXES_X, AXES_Y + AXES_HEIGHT + 20, 80, 50) );
+buttons[4].click = () => axes.seriesInit();
 
-buttons.push( new Button('Chaos', AXES_X + 70, AXES_Y + AXES_HEIGHT + 20, 70, 50) );
-buttons[4].click = () => {
+
+buttons.push( new Button('Chaos 1', AXES_X + 96, AXES_Y + AXES_HEIGHT + 20, 80, 50) );
+buttons[5].click = () => {
     for (const serie of axes.series) {
         serie.mutate();
     }
 };
 
-buttons.push( new Button('Q', AXES_X + AXES_WIDTH + 20, AXES_Y + AXES_HEIGHT + 20, 50, 50) );
-buttons[5].click = () => {axes.seriesInit(), axes.slidersInit()};
+buttons.push( new Button('Chaos 10', AXES_X + 192, AXES_Y + AXES_HEIGHT + 20, 95, 50) );
+buttons[6].click = () => {
+    for (const serie of axes.series) {
+        for (let i = 0; i < 10; ++i) {
+            serie.mutate();
+        }
+    }
+};
+
+buttons.push( new Button('Chaos 99', AXES_X + 303, AXES_Y + AXES_HEIGHT + 20, 97, 50) );
+buttons[7].click = () => {
+    for (const serie of axes.series) {
+        for (let i = 0; i < 99; ++i) {
+            serie.mutate();
+        }
+    }
+};
 
 
 //canvas

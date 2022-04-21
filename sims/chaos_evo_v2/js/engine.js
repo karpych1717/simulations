@@ -218,7 +218,7 @@ let isPointerDown = 0;
 let target;
 let isTargetOn = 0;
 
-let isRendering = 0;
+let isAnimating = 0;
 
 let isDrawing = 1;
 
@@ -259,6 +259,12 @@ const axes = {
 
         for(let i = 0; i < n; i++) {
             this.series.push( new FourierSeries() );
+        }
+    },
+
+    seriesMutate: function() {
+        for (const serie of this.series) {
+            serie.mutate();
         }
     },
 
@@ -378,10 +384,16 @@ buttons.push( new Button('+1',   AXES_X + AXES_WIDTH + 20, 70)  );
 buttons[1].click = () => axes.evolve();
 
 buttons.push( new Button('+10',  AXES_X + AXES_WIDTH + 20, 140) );
-buttons[2].click = () => axes.evolve(10);
+buttons[2].click = () => {
+    isAnimating = 10;
+    animate( () => axes.evolve() );
+};
 
-buttons.push( new Button('+100', AXES_X + AXES_WIDTH + 20, 210) );
-buttons[3].click = () => axes.evolve(100);
+buttons.push( new Button('+99', AXES_X + AXES_WIDTH + 20, 210) );
+buttons[3].click = () => {
+    isAnimating = 99;
+    animate( () => axes.evolve() );
+};
 
 buttons.push( new Button('Chaos 0', AXES_X, AXES_Y + AXES_HEIGHT + 20, 80, 50) );
 buttons[4].click = () => {
@@ -393,27 +405,19 @@ buttons[4].click = () => {
 
 buttons.push( new Button('Chaos 1', AXES_X + 96, AXES_Y + AXES_HEIGHT + 20, 80, 50) );
 buttons[5].click = () => {
-    for (const serie of axes.series) {
-        serie.mutate();
-    }
+    axes.seriesMutate();
 };
 
 buttons.push( new Button('Chaos 10', AXES_X + 192, AXES_Y + AXES_HEIGHT + 20, 95, 50) );
 buttons[6].click = () => {
-    for (const serie of axes.series) {
-        for (let i = 0; i < 10; ++i) {
-            serie.mutate();
-        }
-    }
+    isAnimating = 10;
+    animate( () => axes.seriesMutate() );
 };
 
 buttons.push( new Button('Chaos 99', AXES_X + 303, AXES_Y + AXES_HEIGHT + 20, 97, 50) );
 buttons[7].click = () => {
-    for (const serie of axes.series) {
-        for (let i = 0; i < 99; ++i) {
-            serie.mutate();
-        }
-    }
+    isAnimating = 99;
+    animate( () => axes.seriesMutate() );
 };
 
 
@@ -439,22 +443,35 @@ window.addEventListener('pointerup', releaseTarget);
 
 //render function
 function render() {
+    console.log('render');
     axes.drawFrame(ctx);
     axes.drawBoard(ctx);
 
     axes.drawSeries(ctx);
     axes.drawSliders(ctx);
-
-    if (isRendering) {
-        isRendering = 0;
-        requestAnimationFrame(render);
-    }
 }
-
 
 buttons.map( button => button.drawIt(ctx) );
 
 render();
+
+
+function animate(animatedFunction) {
+    --isAnimating;
+
+    if (isAnimating >= 0) {
+        animatedFunction();
+
+        console.log('animation', isAnimating);
+        axes.drawFrame(ctx);
+        axes.drawBoard(ctx);
+
+        axes.drawSeries(ctx);
+        axes.drawSliders(ctx);
+
+        requestAnimationFrame( () => animate(animatedFunction) );
+    }
+}
 
 
 

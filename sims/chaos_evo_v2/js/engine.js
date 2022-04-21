@@ -7,7 +7,7 @@ const AXES_HEIGHT = 400;
 const PIXEL_SIZE  = Math.PI / 200;
 
 function rnd256() {
-    return Math.floor( 256 * Math.random() );
+    return 50 + Math.floor( 206 * Math.random() );
 };
 
 function randomColor() {

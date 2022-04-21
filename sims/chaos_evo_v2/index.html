@@ -6,6 +6,8 @@
     <link rel='icon' type='image/png' href='./sims_logo.png'>
 
     <link rel='stylesheet' type='text/css' href='./styles.css'>
+
+    <script src="https://adrianotiger.github.io/web-esheep/dist/esheep.min.js"></script>
 </head>
 <body>
 
@@ -22,5 +24,11 @@
     <canvas id='boxCanvas'></canvas>
 
     <script src='js/engine.js'></script>
+
+
+    <script>
+        var sheeps = [new eSheep(), new eSheep()]; 
+        sheeps.map( sheep => sheep.Start() ); 
+    </script>
 </body>
 </html>

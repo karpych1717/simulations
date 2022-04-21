@@ -109,26 +109,26 @@ class FourierSeries {
     mutate(chance = 0.01, amplitude = Math.PI / 10) {
         if( Math.random() < chance ) {
             if( Math.random() < 0.5 ) {
-                this.a0 += amplitude;
+                this.a0 += amplitude * Math.random();
             } else {
-                this.a0 -= amplitude;
+                this.a0 -= amplitude * Math.random();
             }
         }
 
         for (let i = 0; i < this.length; ++i) {
             if( Math.random() < chance ) {
                 if( Math.random() < 0.5 ) {
-                    this.a[i] += amplitude;
+                    this.a[i] += amplitude * Math.random() / (i+1)**2;
                 } else {
-                    this.a[i] -= amplitude;
+                    this.a[i] -= amplitude * Math.random() / (i+1)**2;
                 }
             }
 
             if( Math.random() < chance ) {
                 if( Math.random() < 0.5 ) {
-                    this.b[i] += amplitude / (i+1)**2;
+                    this.b[i] += amplitude * Math.random() / (i+1)**2;
                 } else {
-                    this.b[i] -= amplitude / (i+1)**2;
+                    this.b[i] -= amplitude * Math.random() / (i+1)**2;
                 }
             }
         }

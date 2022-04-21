@@ -443,7 +443,6 @@ window.addEventListener('pointerup', releaseTarget);
 
 //render function
 function render() {
-    console.log('render');
     axes.drawFrame(ctx);
     axes.drawBoard(ctx);
 

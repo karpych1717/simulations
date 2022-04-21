@@ -367,7 +367,12 @@ axes.slidersInit();
 const buttons = [];
 
 buttons.push( new Button('Q', AXES_X + AXES_WIDTH + 20, AXES_Y + AXES_HEIGHT + 20, 50, 50) );
-buttons[0].click = () => {axes.seriesInit(), axes.slidersInit()};
+buttons[0].click = () => {
+    axes.seriesInit();
+    axes.slidersInit();
+
+    axes.generation = 0;
+};
 
 buttons.push( new Button('+1',   AXES_X + AXES_WIDTH + 20, 70)  );
 buttons[1].click = () => axes.evolve();
@@ -379,7 +384,11 @@ buttons.push( new Button('+100', AXES_X + AXES_WIDTH + 20, 210) );
 buttons[3].click = () => axes.evolve(100);
 
 buttons.push( new Button('Chaos 0', AXES_X, AXES_Y + AXES_HEIGHT + 20, 80, 50) );
-buttons[4].click = () => axes.seriesInit();
+buttons[4].click = () => {
+    axes.seriesInit();
+
+    axes.generation = 0;
+};
 
 
 buttons.push( new Button('Chaos 1', AXES_X + 96, AXES_Y + AXES_HEIGHT + 20, 80, 50) );

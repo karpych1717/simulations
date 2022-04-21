@@ -266,6 +266,9 @@ const axes = {
         let newGeneration = [];
 
         for (let t = 0; t < time; ++t) {
+            newGeneration = [];
+
+
             for (const serie of this.series) {
                 serie.good = 0;
 
@@ -282,6 +285,7 @@ const axes = {
             }
             console.log('===============')
 
+
             for (let i = 0; i < 5; ++i) {
                 newGeneration.push( this.series[2].love( this.series[0] ) );
                 newGeneration.push( this.series[4].love( this.series[0] ) );
@@ -294,6 +298,7 @@ const axes = {
                 serie.mutate();
             }
 
+            
             this.series = newGeneration;
 
             this.generation++;

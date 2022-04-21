@@ -461,7 +461,6 @@ function animate(animatedFunction) {
     if (isAnimating >= 0) {
         animatedFunction();
 
-        console.log('animation', isAnimating);
         axes.drawFrame(ctx);
         axes.drawBoard(ctx);
 

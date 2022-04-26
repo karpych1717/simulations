@@ -6,6 +6,8 @@
   <link rel='icon' type='image/png' href='./sims_logo.png'>
 
   <link rel='stylesheet' type='text/css' href='./styles.css'>
+
+  <script src="https://adrianotiger.github.io/web-esheep/dist/esheep.min.js"></script>
 </head>
 
 <body>
@@ -19,6 +21,27 @@
 
     </header>
 
+    <div class='pure-text'>
+        Персональний сайт Владислава Карпенко.
+    </div>
+
+    <div class='pure-text'>
+        Овечки запозичені у проєкту <a href='https://github.com/Adrianotiger/web-esheep'>web-esheep</a>.
+    </div>
+
+
+    <script>
+        const AMOUNT = 3;
+        const sheeps = [];
+
+        const DELAY = 1500;
+
+
+        for (let i = 0; i < AMOUNT; ++i) {
+            sheeps.push( new eSheep() );
+            setTimeout( () => sheeps[i].Start(), i * (Math.random() + i) * DELAY);
+        }
+    </script>
     
 </body>
 

@@ -40,19 +40,24 @@ class Rectangle {
         this.offsetY = y;
         this.width   = width;
         this.height  = height;
+
+        this.left  = x;
+        this.right = x + width;
+        this.top   = y;
+        this.bot   = y + height;
     }
 
     isUnder(obj) {
-        if ( obj.offsetX < this.offsetX ) {
+        if ( obj.offsetX < this.left ) {
             return false;
         }
-        if ( obj.offsetY < this.offsetY ) {
+        if ( obj.offsetY < this.top ) {
             return false;
         }
-        if ( obj.offsetX > this.offsetX + this.width ) {
+        if ( obj.offsetX > this.right ) {
             return false;
         }
-        if ( obj.offsetY > this.offsetY + this.height ) {
+        if ( obj.offsetY > this.bot ) {
             return false;
         }
 
@@ -61,8 +66,10 @@ class Rectangle {
 }
 
 class ChargedBall extends Circle {
-    constructor(x, y, r, charge, isImmobile, relatives) {
-        super(x, y, r);
+    constructor(x, y, r, charge, isImmobile, relatives, box) {
+        super(x + box.offsetX, y + box.offsetY, r);
+
+        this.box = box;
 
         this.Vx = 0;
         this.Vy = 0;
@@ -107,7 +114,7 @@ class ChargedBall extends Circle {
         }
     }
 
-    move(dt) {
+    moveByField(dt) {
         this.Vx += dt * this.Fx;
         this.Vy += dt * this.Fy;
 
@@ -115,29 +122,49 @@ class ChargedBall extends Circle {
         this.offsetY  += dt * this.Vy;
 
 
-        if ( this.offsetY < 0 && this.Vy < 0 ) {
-            this.Vy *= -1;
-        }
-
-        if ( this.offsetX < 0  && this.Vx < 0 ) {
-            this.Vx *= -1;
-        }
-
-        if ( this.offsetY > BoxHeight  && this.Vy > 0 ) {
-            this.Vy *= -1;
-        }
-
-        if ( this.offsetX > BoxWidth && this.Vx > 0 ) {
-            this.Vx *= -1;
-        }
+        this.box.wallEffect(this);
     }
 
 }
 
+class Box extends Rectangle {
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
+    }
+
+    wallEffect(ball) {
+        if ( ball.offsetX < this.left + ball.r  && ball.Vx < 0 ) {
+            ball.Vx *= -1;
+        } else if ( ball.offsetX < this.left + ball.r && ball.Vx === 0) {
+            ball.Vx = 100;
+        }
+
+        if ( ball.offsetY < this.top + ball.r && ball.Vy < 0 ) {
+            ball.Vy *= -1;
+        } else if ( ball.offsetY < this.top + ball.r && ball.Vy === 0) {
+            ball.Vy = 100;
+        }
+
+        if ( ball.offsetX > this.right - ball.r && ball.Vx > 0 ) {
+            ball.Vx *= -1;
+            console.log('mmm');
+        } else if ( ball.offsetX > this.right - ball.r && ball.Vx === 0 ) {
+            ball.Vx = -100;
+            console.log('wow');
+        }
+
+        if ( ball.offsetY > this.bot - ball.r  && ball.Vy > 0 ) {
+            ball.Vy *= -1;
+        } else if ( ball.offsetY > this.bot - ball.r  && ball.Vy === 0 ) {
+            ball.Vy = -100;
+        }
+    }
+}
+
 class Arrow {
-    constructor(x, y, angle, balls, opacity = 1) {
-        this.offsetX = x;
-        this.offsetY = y;
+    constructor(x, y, angle, balls, opacity = 1, box) {
+        this.offsetX = x + box.offsetX;
+        this.offsetY = y + box.offsetY;
 
         this.Fx = 0;
         this.Fy = 0;
@@ -204,23 +231,22 @@ let tempFx;
 let tempFy;
 
 
+const mainBox = new Box(10, 10, 500, 500);
+
 //canvas
 const cvs = document.getElementById('boxCanvas');
 const ctx = cvs.getContext('2d');
 
-const BoxWidth  = 500;
-const BoxHeight = 500;
-
-cvs.width  = BoxWidth;
-cvs.height = BoxHeight;
+cvs.width  = 645;
+cvs.height = 520;
 cvs.style.border  = '2px solid green';
 
 
 const pre_cvs = document.createElement("canvas");
 const pre_ctx = pre_cvs.getContext('2d');
 
-pre_cvs.height = BoxHeight;
-pre_cvs.width  = BoxWidth;
+pre_cvs.height = 520;
+pre_cvs.width  = 645;
 
 pre_ctx.fillStyle = 'white';
 
@@ -242,14 +268,16 @@ window.addEventListener('pointerup', releaseTarget);
 const balls = [];
 
 for(let i = 0; i < 3; i++) {
-    balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300, 10, 1, true, balls));
+    balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300,
+                                10, 1, true,
+                                  balls, mainBox) );
 }
 
 const arrows = [];
 
 for(let i = 0; i < 500; i += 25) {
     for(let j = 8; j < 500; j += 25) {
-        arrows.push( new Arrow(i, j, 0, balls, 1) );
+        arrows.push( new Arrow(i, j, 0, balls, 1, mainBox) );
     }
 }
 
@@ -273,7 +301,7 @@ function render() {
 
     dtHalf = dt / 2;
 
-    pre_ctx.fillRect(0, 0, BoxWidth, BoxHeight);
+    pre_ctx.fillRect(0, 0, 645, 520);
 
     for(const arrow of arrows) {
         arrow.drawIt(pre_ctx);
@@ -295,7 +323,7 @@ function render() {
 
     for(const ball of balls) {
         if( ball === movingBall ) continue;
-        ball.move(dtHalf);
+        ball.moveByField(dtHalf);
     }
 
     for(const ball of balls) {
@@ -309,7 +337,7 @@ function render() {
 
     for(const ball of balls) {
         if( ball === movingBall ) continue;
-        ball.move(dtHalf);
+        ball.moveByField(dtHalf);
     }
 
     requestAnimationFrame(render);

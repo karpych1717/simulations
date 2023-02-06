@@ -62,9 +62,7 @@ class Rectangle {
 
 class ChargedBall extends Circle {
     constructor(x, y, r, charge, isImmobile, relatives) {
-        this.offsetX = x;
-        this.offsetY = y;
-        this.r = r;
+        super(x, y, r);
 
         this.Vx = 0;
         this.Vy = 0;
@@ -121,7 +119,7 @@ class ChargedBall extends Circle {
             this.Vy *= -1;
         }
 
-        if ( this.offsetY < 0  && this.Vx < 0 ) {
+        if ( this.offsetX < 0  && this.Vx < 0 ) {
             this.Vx *= -1;
         }
 

@@ -35,7 +35,7 @@ class Circle {
 }
 
 class Rectangle {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, backColor = 'white', borderColor = 'black') {
         this.offsetX = x
         this.offsetY = y
         this.width   = width
@@ -45,6 +45,9 @@ class Rectangle {
         this.right = x + width
         this.top   = y
         this.bot   = y + height
+
+        this.backColor   = backColor
+        this.borderColor = borderColor
     }
 
     isUnder(obj) {
@@ -63,11 +66,19 @@ class Rectangle {
 
         return true
     }
+
+    drawIt(ctx) {
+        ctx.fillStyle = this.backColor
+        ctx.fillRect(this.offsetX, this.offsetY, this.width, this.height)
+
+        ctx.strokeStyle = this.borderColor
+        ctx.strokeRect(this.offsetX, this.offsetY, this.width, this.height)
+    }
 }
 
 class ChargedBall extends Circle {
-    constructor(x, y, r, charge, isImmobile, relatives, box) {
-        super(x + box.offsetX, y + box.offsetY, r)
+    constructor(x, y, r, charge, isMobile, relatives, box) {
+        super(x /*+ box.offsetX*/, y /*+ box.offsetY*/, r)
 
         this.box = box
 
@@ -78,13 +89,13 @@ class ChargedBall extends Circle {
         this.Fy = 0
 
         this.charge = charge
-        this.isImmobile = isImmobile
+        this.isMobile = isMobile
         this.relatives = relatives
 
-        this.picture = isImmobile ?
+        this.picture = isMobile ?
             ( (charge > 0) ? posSmallPic : negSmallPic )
             :
-            ( (charge > 0) ? posSmallPic : negSmallPic )
+            ( (charge > 0) ? posBigPic : negBigPic )
     }
 
     drawIt(ctx) {
@@ -97,6 +108,10 @@ class ChargedBall extends Circle {
     countForce() {
         this.Fx = 0
         this.Fy = 0
+
+        if (!this.isMobile) {
+            return
+        }
 
         for(const ball of this.relatives) {
             if (ball === this) continue
@@ -115,6 +130,8 @@ class ChargedBall extends Circle {
     }
 
     moveByField(dt) {
+        collide()
+
         this.Vx += dt * this.Fx
         this.Vy += dt * this.Fy
 
@@ -147,7 +164,7 @@ class Box extends Rectangle {
 
         if ( ball.offsetX > this.right - ball.r && ball.Vx > 0 ) {
             ball.Vx *= -1
-            console.log('mmm')
+            console.log('mmm' + ball.Vx)
         } else if ( ball.offsetX > this.right - ball.r && ball.Vx === 0 ) {
             ball.Vx = -100
             console.log('wow')
@@ -160,6 +177,18 @@ class Box extends Rectangle {
         }
     }
 }
+
+
+class Bucket extends Rectangle {
+    constructor(x, y, width, height) {
+        super(x, y, width, height)
+    }
+
+    pointerDown(e) {
+
+    }
+}
+
 
 class Arrow {
     constructor(x, y, angle, balls, opacity = 1, box) {
@@ -221,7 +250,9 @@ class Arrow {
 }
 
 
-//will be used in force counting
+//will be used in counting
+let temp
+
 let tempR
 let tempRx
 let tempRy
@@ -230,25 +261,36 @@ let tempF
 let tempFx
 let tempFy
 
+const e1 = {x: 0, y: 0}
+const e2 = {x: 0, y: 0}
+const v1 = {x: 0, y: 0}
+const v2 = {x: 0, y: 0}
 
-const mainBox = new Box(10, 10, 500, 500)
+const MAINBOX_SIZE = 500
+const SUBBOX_SIZE  = MAINBOX_SIZE / 4
+const PADDING      = 10
+
+
+const mainBox = new Box(PADDING, PADDING, MAINBOX_SIZE, MAINBOX_SIZE)
+const subBox1 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 0 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'cyan')
+const subBox2 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 1 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'pink')
+const subBox3 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 2 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'blue')
+const subBox4 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 3 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'red')
 
 //canvas
 const cvs = document.getElementById('boxCanvas')
 const ctx = cvs.getContext('2d')
 
-cvs.width  = 645
-cvs.height = 520
+cvs.width  = PADDING + MAINBOX_SIZE + SUBBOX_SIZE + PADDING
+cvs.height = PADDING + MAINBOX_SIZE + PADDING
 cvs.style.border  = '2px solid green'
 
 
 const pre_cvs = document.createElement("canvas")
 const pre_ctx = pre_cvs.getContext('2d')
 
-pre_cvs.height = 520
-pre_cvs.width  = 645
-
-pre_ctx.fillStyle = 'white'
+pre_cvs.width  = cvs.width
+pre_cvs.height = cvs.height
 
 
 let movingBall = null
@@ -257,21 +299,16 @@ let relativeY = 0
 
 
 //events
-cvs.addEventListener('pointerdown', targetOnClick)
+cvs.addEventListener('pointerdown', pointerDown)
 
-cvs.addEventListener('pointermove', moveByMouse)
+cvs.addEventListener('pointermove', pointerMove)
 
-window.addEventListener('pointerup', releaseTarget)
+window.addEventListener('pointerup', pointerUp)
 
 
+const balls      = []
+const collisions = []
 
-const balls = []
-
-for(let i = 0; i < 3; i++) {
-    balls.push(new ChargedBall(100 + Math.random()*300, 100 + Math.random()*300,
-                                10, 1, true,
-                                  balls, mainBox) )
-}
 
 const arrows = []
 
@@ -280,7 +317,6 @@ for(let i = 0; i < 500; i += 25) {
         arrows.push( new Arrow(i, j, 0, balls, 1, mainBox) )
     }
 }
-
 
 
 // Time watch
@@ -301,7 +337,14 @@ function render() {
 
     dtHalf = dt / 2
 
-    pre_ctx.fillRect(0, 0, 645, 520)
+    pre_ctx.fillStyle = 'white'
+    pre_ctx.fillRect(0, 0, pre_cvs.width, pre_cvs.height)
+
+    mainBox.drawIt(pre_ctx)
+    subBox1.drawIt(pre_ctx)
+    subBox2.drawIt(pre_ctx)
+    subBox3.drawIt(pre_ctx)
+    subBox4.drawIt(pre_ctx)
 
     for(const arrow of arrows) {
         arrow.drawIt(pre_ctx)
@@ -348,8 +391,8 @@ render()
 
 
 
-function targetOnClick(event) {
-    for(let i = 0; i < balls.length; i++ ) {
+function pointerDown(event) {
+    for(let i = 0; i < balls.length; i++) {
         if( balls[balls.length - 1 - i].midpointDistanceTo(event) < balls[balls.length - 1 - i].r) {
             movingBall = balls[balls.length - 1 - i]
 
@@ -372,22 +415,141 @@ function targetOnClick(event) {
 
         balls[balls.length - 1] = movingBall
     }
+
+    if ( subBox1.isUnder(event) ) {
+        balls.push( new ChargedBall(event.offsetX, event.offsetY,
+                                    20, -1, false, balls, mainBox)
+                                    )
+        movingBall = balls[balls.length-1]
+
+        addCollision(movingBall)
+    }
+    if ( subBox2.isUnder(event) ) {
+        balls.push( new ChargedBall(event.offsetX, event.offsetY,
+                                    20, 1, false, balls, mainBox)
+                                    )
+        movingBall = balls[balls.length-1]
+
+        addCollision(movingBall)
+    }
+    if ( subBox3.isUnder(event) ) {
+        balls.push( new ChargedBall(event.offsetX, event.offsetY,
+                                    10, -1, true, balls, mainBox)
+                                    )
+        movingBall = balls[balls.length-1]
+
+        addCollision(movingBall)
+    }
+    if ( subBox4.isUnder(event) ) {
+        balls.push( new ChargedBall(event.offsetX, event.offsetY,
+                                    10, 1, true, balls, mainBox)
+                                    )
+        movingBall = balls[balls.length-1]
+
+        addCollision(movingBall)
+    }
 }
 
-function moveByMouse(event) {
+function pointerMove(event) {
     if (movingBall !== null) {
         movingBall.offsetX = event.offsetX + relativeX
         movingBall.offsetY = event.offsetY + relativeY
     }
 }
 
-function releaseTarget(event) {
+function pointerUp(event) {
     if (movingBall !== null) {
         movingBall.offsetX = event.offsetX + relativeX
         movingBall.offsetY = event.offsetY + relativeY
+
+        if( !mainBox.isUnder(movingBall) ) {
+            balls.length -= 1
+        }
 
         movingBall = null
         relativeX = 0
         relativeY = 0
     }
+}
+
+
+function addCollision(newBall) {
+    if (balls.length === 0) {
+        return
+    }
+
+    for (const ball of balls) {
+        if (ball === newBall) {
+            continue
+        }
+
+        if (ball.isMobile === false && newBall.isMobile === false) {
+            continue
+        }
+
+        collisions.push({
+            'ball_1': ball,
+            'ball_2': newBall,
+            'distance': ball.midpointDistanceTo(newBall)
+        })
+    }
+}
+
+function removeCollision(oldBall) {
+    let newCollisions = collisions
+        .filter( (collision) => collision.ball_1 !== oldBall )
+        .filter( (collision) => collision.ball_2 !== oldBall )
+
+    collisions = newCollisions
+
+}
+
+function collide() {
+    for (const collision of collisions) {
+        if ( collision.ball_1.midpointDistanceTo(collision.ball_2) <= collision.ball_1.r + collision.ball_2.r ) {
+            impact(collision.ball_1, collision.ball_2)
+        }
+    }
+}
+
+function impact(ball_1, ball_2) {
+        e1.x  = ball_2.offsetX - ball_1.offsetX
+        e1.y  = ball_2.offsetY - ball_1.offsetY
+
+        e1.l  = Math.sqrt( e1.x**2 + e1.y**2 )
+
+        e1.x /= e1.l
+        e1.y /= e1.l
+
+        e1.l  = 1
+
+
+        e2.x = -e1.y
+        e2.y =  e1.x
+
+
+        v1.x =  e1.x * ball_1.Vx - e2.x * ball_1.Vy
+        v2.x =  e1.x * ball_2.Vx - e2.x * ball_2.Vy
+        
+
+        if ( v1.x - v2.x <= 0 ) return
+
+        v1.y = -e1.y * ball_1.Vx + e2.y * ball_1.Vy
+        v2.y = -e1.y * ball_2.Vx + e2.y * ball_2.Vy
+
+        if ( ball_1 == movingBall || ball_2 == movingBall ) {
+            v1.x *= -1
+            v2.x *= -1
+        } else {
+            temp = v1.x
+            v1.x = v2.x
+            v2.x = temp
+        }
+
+
+        ball_1.Vx = e1.x * v1.x + e2.x * v1.y
+        ball_1.Vy = e1.y * v1.x + e2.y * v1.y
+
+        ball_2.Vx = e1.x * v2.x + e2.x * v2.y
+        ball_2.Vy = e1.y * v2.x + e2.y * v2.y
 }

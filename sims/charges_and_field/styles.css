@@ -41,8 +41,13 @@ nav {
 }
 
 canvas {
+    margin: auto ;
     touch-action: pinch-zoom;
 
     background-color: White;
     margin: 15px;
+}
+
+#canvas-div {
+    text-align: center;
 }

@@ -100,8 +100,8 @@ class ChargedBall extends Circle {
 
     drawIt(ctx) {
         ctx.drawImage( this.picture,
-                       Math.floor(this.offsetX - this.r),
-                       Math.floor(this.offsetY - this.r)
+                       Math.floor(this.offsetX) - this.r,
+                       Math.floor(this.offsetY) - this.r
                      )
     }
 
@@ -334,6 +334,7 @@ function pointerUp(event) {
 
         if( !mainBox.isUnder(movingBall) ) {
             balls.length -= 1
+            removeCollision(movingBall)
         }
 
         movingBall = null
@@ -386,6 +387,7 @@ function addCollision(newBall) {
         }
 
         collisions.push({
+            'n': collisions.length + 1,
             'ball_1': ball,
             'ball_2': newBall,
             'distance': ball.midpointDistanceTo(newBall)
@@ -394,12 +396,29 @@ function addCollision(newBall) {
 }
 
 function removeCollision(oldBall) {
-    let newCollisions = collisions
-        .filter( (collision) => collision.ball_1 !== oldBall )
-        .filter( (collision) => collision.ball_2 !== oldBall )
+    let match = 0
 
-    collisions = newCollisions
+    console.log('start ' + collisions.length)
 
+    for (let i = 0; i + match < collisions.length; i++) {
+        while (i + match < collisions.length) {
+            if (oldBall === collisions[i + match].ball_1 || oldBall === collisions[i + match].ball_2) {
+                match++
+            } else {
+                break
+            }
+        }
+
+        if (match === 0) continue
+
+        collisions[i] = collisions[i + match]
+    }
+
+    console.log('end ' + match)
+    
+    collisions.length -= match
+
+    console.log(collisions.length)
 }
 
 function collide() {
@@ -525,9 +544,8 @@ let now    = new Date().getTime()
 let dt     = 0
 let prev   = now
 
-const maxDt    = 33
-const accuracy = 33
-
+const maxDt    = 30
+const accuracy = 15
 
 //render function
 function render() {

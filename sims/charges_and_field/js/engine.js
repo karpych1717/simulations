@@ -110,25 +110,39 @@ class ChargedBall extends Circle {
         this.Fx = 0
         this.Fy = 0
 
-        if (!this.isMobile) {
+        if (!this.isMobile || !mainBox.isUnder(this)) {
             return
         }
 
-        for(const ball of this.relatives) {
-            if (ball === this || !mainBox.isUnder(ball) ) continue
+        for(const i of this.relations) {
+            if (i.ball_1 === this) {
+                if (i.ball_2.charge * this.charge === -1 && i.distance < i.ball_2.r + this.r) continue
 
-            if (ball.charge * this.charge === -1 && ball.midpointDistanceTo(this) < ball.r + this.r) continue
+                tempRx = this.offsetX - i.ball_2.offsetX
+                tempRy = this.offsetY - i.ball_2.offsetY
 
-            tempRx = this.offsetX - ball.offsetX
-            tempRy = this.offsetY - ball.offsetY
+                tempR  = i.distance
 
-            tempR  = Math.sqrt( tempRx**2 + tempRy**2 )
+                tempFx = this.charge * i.ball_2.charge / tempR**3 * tempRx
+                tempFy = this.charge * i.ball_2.charge / tempR**3 * tempRy
 
-            tempFx = this.charge * ball.charge / tempR**3 * tempRx
-            tempFy = this.charge * ball.charge / tempR**3 * tempRy
+                this.Fx += tempFx
+                this.Fy += tempFy
+            }
+            if (i.ball_2 === this) {
+                if (i.ball_1.charge * this.charge === -1 && i.distance < i.ball_1.r + this.r) continue
 
-            this.Fx += tempFx
-            this.Fy += tempFy
+                tempRx = this.offsetX - i.ball_1.offsetX
+                tempRy = this.offsetY - i.ball_1.offsetY
+
+                tempR  = i.distance
+
+                tempFx = this.charge * i.ball_1.charge / tempR**3 * tempRx
+                tempFy = this.charge * i.ball_1.charge / tempR**3 * tempRy
+
+                this.Fx += tempFx
+                this.Fy += tempFy
+            }
         }
     }
 
@@ -346,28 +360,32 @@ function pointerUp(event) {
 
 
 function simulate(dt) {
-    for(const ball of balls) {
-        if( ball === movingBall ) continue
+    for (const i of interactions) {
+        i.distance = i.ball_1.midpointDistanceTo(i.ball_2)
+    }
+
+    for (const ball of balls) {
+        if (ball === movingBall) continue
         ball.countForce()
     }
 
 
-    for(const ball of balls) {
-        if( ball === movingBall ) continue
+    for (const ball of balls) {
+        if (ball === movingBall) continue
         ball.moveByField(dt)
     }
 
-    for(const ball of balls) {
-        if( ball === movingBall ) continue
+    for (const ball of balls) {
+        if (ball === movingBall) continue
         ball.countForce()
     }
 
-    for(const arrow of arrows) {
+    for (const arrow of arrows) {
         arrow.countForceAndAngle()
     }
 
-    for(const ball of balls) {
-        if( ball === movingBall ) continue
+    for (const ball of balls) {
+        if(ball === movingBall) continue
         ball.moveByField(dt)
     }
 }
@@ -398,8 +416,6 @@ function addInteraction(newBall) {
 function removeInteraction(oldBall) {
     let match = 0
 
-    console.log('start ' + interactions.length)
-
     for (let i = 0; i + match < interactions.length; i++) {
         while (i + match < interactions.length) {
             if (oldBall === interactions[i + match].ball_1 || oldBall === interactions[i + match].ball_2) {
@@ -414,11 +430,8 @@ function removeInteraction(oldBall) {
         interactions[i] = interactions[i + match]
     }
 
-    console.log('end ' + match)
     
     interactions.length -= match
-
-    console.log(interactions.length)
 }
 
 function collide() {

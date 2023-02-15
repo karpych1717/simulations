@@ -77,7 +77,7 @@ class Rectangle {
 }
 
 class ChargedBall extends Circle {
-    constructor(x, y, r, charge, isMobile, relatives, box) {
+    constructor(x, y, r, charge, isMobile, relatives, relations, box) {
         super(x /*+ box.offsetX*/, y /*+ box.offsetY*/, r)
 
         this.box = box
@@ -91,6 +91,7 @@ class ChargedBall extends Circle {
         this.charge = charge
         this.isMobile = isMobile
         this.relatives = relatives
+        this.relations = relations
 
         this.picture = isMobile ?
             ( (charge > 0) ? posSmallPic : negSmallPic )
@@ -288,35 +289,35 @@ function pointerDown(event) {
 
     if ( subBox1.isUnder(event) ) {
         balls.push( new ChargedBall(event.offsetX, event.offsetY,
-                                    20, -1, false, balls, mainBox)
+                                    20, -1, false, balls, interactions, mainBox)
                                     )
         movingBall = balls[balls.length-1]
 
-        addCollision(movingBall)
+        addInteraction(movingBall)
     }
     if ( subBox2.isUnder(event) ) {
         balls.push( new ChargedBall(event.offsetX, event.offsetY,
-                                    20, 1, false, balls, mainBox)
+                                    20, 1, false, balls, interactions, mainBox)
                                     )
         movingBall = balls[balls.length-1]
 
-        addCollision(movingBall)
+        addInteraction(movingBall)
     }
     if ( subBox3.isUnder(event) ) {
         balls.push( new ChargedBall(event.offsetX, event.offsetY,
-                                    10, -1, true, balls, mainBox)
+                                    10, -1, true, balls, interactions, mainBox)
                                     )
         movingBall = balls[balls.length-1]
 
-        addCollision(movingBall)
+        addInteraction(movingBall)
     }
     if ( subBox4.isUnder(event) ) {
         balls.push( new ChargedBall(event.offsetX, event.offsetY,
-                                    10, 1, true, balls, mainBox)
+                                    10, 1, true, balls, interactions, mainBox)
                                     )
         movingBall = balls[balls.length-1]
 
-        addCollision(movingBall)
+        addInteraction(movingBall)
     }
 }
 
@@ -334,7 +335,7 @@ function pointerUp(event) {
 
         if( !mainBox.isUnder(movingBall) ) {
             balls.length -= 1
-            removeCollision(movingBall)
+            removeInteraction(movingBall)
         }
 
         movingBall = null
@@ -372,7 +373,7 @@ function simulate(dt) {
 }
 
 
-function addCollision(newBall) {
+function addInteraction(newBall) {
     if (balls.length === 0) {
         return
     }
@@ -386,8 +387,7 @@ function addCollision(newBall) {
             continue
         }
 
-        collisions.push({
-            'n': collisions.length + 1,
+        interactions.push({
             'ball_1': ball,
             'ball_2': newBall,
             'distance': ball.midpointDistanceTo(newBall)
@@ -395,14 +395,14 @@ function addCollision(newBall) {
     }
 }
 
-function removeCollision(oldBall) {
+function removeInteraction(oldBall) {
     let match = 0
 
-    console.log('start ' + collisions.length)
+    console.log('start ' + interactions.length)
 
-    for (let i = 0; i + match < collisions.length; i++) {
-        while (i + match < collisions.length) {
-            if (oldBall === collisions[i + match].ball_1 || oldBall === collisions[i + match].ball_2) {
+    for (let i = 0; i + match < interactions.length; i++) {
+        while (i + match < interactions.length) {
+            if (oldBall === interactions[i + match].ball_1 || oldBall === interactions[i + match].ball_2) {
                 match++
             } else {
                 break
@@ -411,20 +411,20 @@ function removeCollision(oldBall) {
 
         if (match === 0) continue
 
-        collisions[i] = collisions[i + match]
+        interactions[i] = interactions[i + match]
     }
 
     console.log('end ' + match)
     
-    collisions.length -= match
+    interactions.length -= match
 
-    console.log(collisions.length)
+    console.log(interactions.length)
 }
 
 function collide() {
-    for (const collision of collisions) {
-        if ( collision.ball_1.midpointDistanceTo(collision.ball_2) <= collision.ball_1.r + collision.ball_2.r ) {
-            impact(collision.ball_1, collision.ball_2)
+    for (const interaction of interactions) {
+        if ( interaction.ball_1.midpointDistanceTo(interaction.ball_2) <= interaction.ball_1.r + interaction.ball_2.r ) {
+            impact(interaction.ball_1, interaction.ball_2)
         }
     }
 }
@@ -527,7 +527,7 @@ window.addEventListener('pointerup', pointerUp)
 
 
 const balls      = []
-const collisions = []
+const interactions = []
 
 
 const arrows = []

@@ -8,3 +8,5 @@ const toDraw   = []
 const toEvolve = []
 
 const stage = new Stage('boxCanvas', BOXWIDTH, BOXHEIGHT, toDraw, toEvolve)
+
+stage.render()

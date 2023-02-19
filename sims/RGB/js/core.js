@@ -1,20 +1,20 @@
 class Stage {
     constructor(id, width, height, toDraw, toEvolve) {
         this.cvs = document.getElementById(id)
-        this.ctx = cvs.getContext('2d', {alpha: false})
+        this.ctx = this.cvs.getContext('2d', {alpha: false})
 
         this.cvs.width  = width
         this.cvs.height = height
 
 
         this.pre_cvs = document.createElement('canvas')
-        this.pre_ctx = pre_cvs.getContext('2d', {alpha: false})
+        this.pre_ctx = this.pre_cvs.getContext('2d', {alpha: false})
 
         this.pre_cvs.width  = width
         this.pre_cvs.height = height
 
         this.pre_ctx.lineWidth   = 7
-        this.pre_ctx.strokeStyle = 'white'
+        this.pre_ctx.strokeStyle = 'black'
 
         this.pre_ctx.font = '40px serif'
 
@@ -30,81 +30,153 @@ class Stage {
     }
 
     drawAll() {
-        this.toEvolve.forEach(obj => {
+        this.toDraw.forEach(obj => {
             obj.drawIt(this.pre_ctx)
         })
 
-        this.ctx.drawImage(pre_cvs, 0, 0);
+        this.ctx.drawImage(this.pre_cvs, 0, 0);
+    }
+}
+
+
+class Color {
+    constructor(red, green, blue) {
+        this._red   = red
+        this._green = green
+        this._blue  = blue
     }
 
-    render() {
-        this.evolveAll()
-        this.drawAll()
 
-        requestAnimationFrame(this.render);
+    set red(red) {
+        this._red   = red
+    }
+    get red() {
+        return this._red
+    }
+
+    set green(green) {
+        this._green = green
+    }
+    get green() {
+        return this._green
+    }
+
+    set blue(blue) {
+        this._blue  = blue
+    }
+    get blue() {
+        return this._blue
+    }
+
+    mix(col1, col2) {
+        this._red   = Math.max(col1.red, col2.red)
+        this._green = Math.max(col1.green, col2.green)
+        this._blue  = Math.max(col1.blue, col2.blue)
+    }
+
+
+    getNormalised() {
+        return `rgb(${this._red}, ${this._green}, ${this._blue})`
+    }
+}
+
+
+class Slider {
+    constructor(x, y, width, height, min, max, step, initVal) {
+        this.offsetX = x
+        this.offsetY = y
+
+        this.width  = width
+        this.height = height
+
+        this.min = min
+        this.max = max
+        this.step = step
+        this.val = initVal
+    }
+
+    drawIt(ctx) {
+        ctx.fillStyle = 'gray'
+
+        ctx.fillRect(this.offsetX, this.offsetY, this.width, this.height)
     }
 }
 
 
 class Circle {
-    constructor() {
-        this.first  = {red: 255, green: 0,   blue: 0,};
-        this.second = {red: 0,   green: 255, blue: 0,};
-        this.third  = {red: 0,   green: 0,   blue: 255};
+    constructor(first, second, third, radius, angle, parent) {
+        this.first  = first
+        this.second = second
+        this.third  = third
 
-        this.r = 248;
+        this.radius = radius
 
-        this.offsetX = 250;
-        this.offsetY = 250;
+        this.offsetX = 250
+        this.offsetY = 250
         
-        this.direction = 1;
-        this.angle = 0;
+        this.angle = angle
+        this.speed = 1
+
+        this.parent = parent
     };
 
     get first_color() {
-        return 'rgb(' + this.first.red + ',' + this.first.green + ',' + this.first.blue + ')';
+        return this.first.getNormalised()
     };
 
     get second_color() {
-        return 'rgb(' + this.second.red + ',' + this.second.green + ',' + this.second.blue + ')';
+        return this.secong.getNormalised()
     };
 
     get third_color() {
-        return 'rgb(' + this.third.red + ',' + this.third.green + ',' + this.third.blue + ')';
+        return this.third.getNormalised()
     };
 
     drawIt(ctx) {
-        ctx.fillStyle = this.first_color;
+        ctx.fillStyle = this.first.getNormalised();
         ctx.beginPath();
         ctx.moveTo(this.offsetX, this.offsetY);
-        ctx.arc(this.offsetX, this.offsetY, this.r,
-            this.direction * this.angle + 0, this.direction * this.angle + Math.PI * 2 / 3);
+        ctx.arc(this.offsetX, this.offsetY, this.radius,
+            this.angle + 0, this.angle + Math.PI * 2 / 3);
         ctx.lineTo(this.offsetX, this.offsetY);
         ctx.fill();
 
-        ctx.fillStyle = this.second_color;
+        ctx.fillStyle = this.second.getNormalised();
         ctx.beginPath();
         ctx.moveTo(this.offsetX, this.offsetY);
-        ctx.arc(this.offsetX, this.offsetY, this.r,
-            this.direction * this.angle + Math.PI * 2 / 3, this.direction * this.angle + Math.PI * 4 / 3);
+        ctx.arc(this.offsetX, this.offsetY, this.radius,
+            this.angle + Math.PI * 2 / 3, this.angle + Math.PI * 4 / 3);
         ctx.lineTo(this.offsetX, this.offsetY);
         ctx.fill();
 
-        ctx.fillStyle = this.third_color;
+        ctx.fillStyle = this.third.getNormalised();
         ctx.beginPath();
         ctx.moveTo(this.offsetX, this.offsetY);
-        ctx.arc(this.offsetX, this.offsetY, this.r,
-            this.direction * this.angle + Math.PI * 4 / 3, this.direction * this.angle + Math.PI * 2);
+        ctx.arc(this.offsetX, this.offsetY, this.radius,
+            this.angle + Math.PI * 4 / 3, this.angle + Math.PI * 2);
         ctx.lineTo(this.offsetX, this.offsetY);
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(this.offsetX, this.offsetY, this.r, 0, Math.PI * 2);
+        ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2);
         ctx.stroke();
     };
 
-    rotate(speed) {
-        this.angle += speed / 180 * Math.PI;
+    mix() {
+        if (this.parent === null) return
+
+        this.first.mix(this.parent.third, this.parent.first)
+        this.second.mix(this.parent.first, this.parent.second)
+        this.third.mix(this.parent.second, this.parent.third)
+    }
+
+    rotate() {
+        this.angle -= this.speed / 180 * Math.PI
     };
+
+    evolveIt() {
+        this.mix()
+        this.rotate()
+    }
 
 };

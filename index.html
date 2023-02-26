@@ -2,76 +2,83 @@
 <html>
 
 <head>
-    <title>karpych`s sims</title>
-    <link rel='icon' type='image/png' href='./sims_logo.png'>
+  <title>karpych`s sims</title>
+  <link rel='icon' type='image/png' href='./sims_logo.png'>
 
-    <link rel='stylesheet' type='text/css' href='./styles.css'>
+  <link rel='stylesheet' type='text/css' href='./styles.css'>
 
-    <script src="https://adrianotiger.github.io/web-esheep/dist/esheep.min.js"></script>
+  <script src="https://adrianotiger.github.io/web-esheep/dist/esheep.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a class='header-link' id='sims-list-link' href='#'>Simulations</a>
-            <a class='header-link' id='about-link' href='about/index.html'>About</a>
-        </nav>
+  <header>
+    <nav>
+      <a class='header-link' id='sims-list-link' href='#'>Simulations</a>
+      <a class='header-link' id='about-link' href='about/index.html'>About</a>
+    </nav>
 
-            <img id='logo' src='./sims_logo.png' alt='logo' width='59px' height='59px'/>
+      <img id='logo' src='./sims_logo.png' alt='logo' width='59px' height='59px'/>
 
-    </header>
+  </header>
 
-    <div class='sims-list'>
-        <div class='sim-link'>
-            <a href='./sims/ideal_gas/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/ideal_gas/face.png' alt='gas_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                Ideal gas
-            </a>
-        </div>
-
-        <div class='sim-link'>
-            <a href='./sims/RGB/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/RGB/face.png' alt='RGB_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                RGB
-            </a>
-        </div>
-
-        <div class='sim-link'>
-            <a href='./sims/charges_and_field/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/charges_and_field/face.png' alt='charges_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                Electric
-            </a>
-        </div>
-
-        <div class='sim-link'>
-            <a href='./sims/chaos_evo_v2/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/chaos_evo_v2/face.png' alt='charges_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                Evolution
-            </a>
-        </div>
-
-        <div class='sim-link'>
-            <a href='./sims/collisions_lab/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/collisions_lab/face.png' alt='charges_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                Collisions
-            </a>
-        </div>
-
-        <div class='sim-link'>
-            <a href='./sims/dayLight/index.html' style='text-decoration:none;color: Black;'>
-                <img src='./sims/dayLight/face.png' alt='charges_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
-                DayLight
-            </a>
-        </div>
-        
+  <div class='sims-list'>
+    <div class='sim-link'>
+      <a href='./sims/ideal_gas/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/ideal_gas/face.png' alt='gas_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        Ideal gas
+      </a>
     </div>
 
+    <div class='sim-link'>
+      <a href='./sims/RGB/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/RGB/face.png' alt='RGB_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        RGB
+      </a>
+    </div>
 
-    <script>
-        let sheep = new eSheep(); 
-        sheep.Start(); 
-    </script>
+    <div class='sim-link'>
+      <a href='./sims/charges_and_field/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/charges_and_field/face.png' alt='charges_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        Electric
+      </a>
+    </div>
+
+    <div class='sim-link'>
+      <a href='./sims/chaos_evo_v2/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/chaos_evo_v2/face.png' alt='interface_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        Evolution
+      </a>
+    </div>
+
+    <div class='sim-link'>
+      <a href='./sims/collisions_lab/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/collisions_lab/face.png' alt='balls_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        Collisions
+      </a>
+    </div>
+
+    <div class='sim-link'>
+      <a href='./sims/dayLight/index.html' style='text-decoration:none;color: Black;'>
+        <img src='./sims/dayLight/face.png' alt='earth_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+        DayLight
+      </a>
+    </div>
+
+    <div class='sim-link'>
+        <a href='./sims/wavelengthAndColor/index.html' style='text-decoration:none;color: Black;'>
+          <img src='./sims/wavelengthAndColor/face.png' alt='wave_pic' width='100px' height='100px' style='border-radius:50%;'/><br/>
+          Wavelength&Color
+        </a>
+      </div>
     
+  </div>
+
+
+  <script>
+    let sheep = new eSheep(); 
+    sheep.Start(); 
+  </script>
+  
 </body>
 
 </html>

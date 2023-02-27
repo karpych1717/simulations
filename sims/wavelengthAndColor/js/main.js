@@ -164,7 +164,7 @@ const slider = {
 
     if (this.state <= 350) {
       this.color.l = 50
-      this.color.h = this.state - 50
+      this.color.h = 350 - this.state
       return
     }
 

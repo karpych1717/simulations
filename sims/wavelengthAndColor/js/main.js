@@ -21,7 +21,7 @@ const sine = {
   A: 100,
   T: 190,
   color,
-  isOnPause: false,
+  isOnPause: true,
 
   changeColorTo: function (wavelength) {
 

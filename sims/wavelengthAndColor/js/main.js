@@ -5,7 +5,7 @@ const BOXHEIGHT = 500
 const SFRAME = 4
 
 const color = {
-  h: 50,
+  h: 160,
   s: 100,
   l: 50,
 

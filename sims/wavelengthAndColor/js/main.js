@@ -105,7 +105,7 @@ const slider = {
 
   color,
   state: 150,
-  wavelength: 487,
+  wavelength: 488,
 
   evolveIt: function () {
 
@@ -153,7 +153,7 @@ const slider = {
     if (event.offsetX < this.offsetX || event.offsetX > this.offsetX + this.width) return
 
     this.state = event.offsetX - this.offsetX
-    this.wavelength = Math.trunc(16 / 15 * (this.state - 50) + 380)
+    this.wavelength = Math.trunc(53 / 60 * (this.state - 50) + 400)
 
     sine.T = (16 * this.state + 350 * 14) / 30
 

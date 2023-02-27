@@ -5,7 +5,7 @@ const BOXHEIGHT = 500
 const SFRAME = 4
 
 const color = {
-  h: 160,
+  h: 196,
   s: 100,
   l: 50,
 
@@ -19,7 +19,7 @@ const sine = {
   offsetY: 200,
   phi: 0,
   A: 100,
-  T: 190,
+  T: 245,
   color,
   isOnPause: true,
 

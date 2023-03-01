@@ -30,7 +30,7 @@ const sine = {
   evolveIt (dt) {
     if (this.isOnPause) return
 
-    this.phi += dt / 400
+    this.phi += dt / this.T / 2
 
     if (this.phi > 2 * Math.PI) {
       this.phi -= 2 * Math.PI

@@ -43,8 +43,8 @@ const sine = {
     ctx.beginPath()
     ctx.moveTo(this.offsetX - 10, this.offsetY + this.A * Math.cos(-20 * Math.PI / this.T - this.phi))
 
-    for (let i = -10; i <= BOXWIDTH + 10; i += 1) {
-      ctx.lineTo(i, this.offsetY + this.A * Math.cos(2 * Math.PI / this.T * i - this.phi))
+    for (let x = -10; x <= BOXWIDTH + 10; x += 1) {
+      ctx.lineTo(x, this.offsetY + this.A * Math.cos(2 * Math.PI / this.T * x - this.phi))
     }
 
     ctx.stroke()

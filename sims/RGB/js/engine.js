@@ -8,11 +8,9 @@ const pre_ctx = pre_cvs.getContext('2d')
 const BoxHeight = 500
 const BoxWidth = 500
 
-
 cvs.height = BoxHeight
 cvs.width = BoxWidth
 cvs.style.border = '2px solid green'
-
 
 pre_cvs.height = BoxHeight
 pre_cvs.width = BoxWidth
@@ -22,28 +20,27 @@ pre_ctx.strokeStyle = 'white'
 
 pre_ctx.font = '40px serif'
 
-
-//rotation speed
+// rotation speed
 let speed = 1
 const speedRange = document.getElementById('speed')
 speedRange.value = speed
 
 speedRange.oninput = () => {
   speed = speedRange.value
-};
+}
 
 // Circle
 class Circle {
   constructor () {
-    this.first = { red: 255, green: 0, blue: 0};
-    this.second = { red: 0, green: 255, blue: 0};
+    this.first = { red: 255, green: 0, blue: 0 }
+    this.second = { red: 0, green: 255, blue: 0 }
     this.third = { red: 0, green: 0, blue: 255 }
 
     this.r = 248
 
     this.cx = 250
     this.cy = 250
-    
+
     this.direction = 1
     this.angle = 0
   };
@@ -96,8 +93,8 @@ class Circle {
 };
 
 // render prep
-const circle1 = new Circle
-const circle2 = new Circle
+const circle1 = new Circle()
+const circle2 = new Circle()
 
 circle2.angle = Math.PI / 3
 circle2.r = 110
@@ -114,7 +111,7 @@ circle2.mix = function (circle) {
   this.third.red = Math.max(circle1.third.red, circle1.first.red)
   this.third.green = Math.max(circle1.third.green, circle1.first.green)
   this.third.blue = Math.max(circle1.third.blue, circle1.first.blue)
-};
+}
 
 circle2.mix(circle1)
 
@@ -147,7 +144,7 @@ const solidCircle = {
     ctx.beginPath()
     ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2)
     ctx.stroke()
-  },
+  }
 }
 
 // color ranges
@@ -181,91 +178,87 @@ sector_3_red.value = 0
 sector_3_green.value = 0
 sector_3_blue.value = 255
 
-
 sector_1_red.oninput = () => {
   circle1.first.red = sector_1_red.value
   sector_1.style.backgroundColor = circle1.first_color
 
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_1_green.oninput = () => {
   circle1.first.green = sector_1_green.value
   sector_1.style.backgroundColor = circle1.first_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_1_blue.oninput = () => {
   circle1.first.blue = sector_1_blue.value
   sector_1.style.backgroundColor = circle1.first_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 
 sector_2_red.oninput = () => {
   circle1.second.red = sector_2_red.value
   sector_2.style.backgroundColor = circle1.second_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_2_green.oninput = () => {
   circle1.second.green = sector_2_green.value
   sector_2.style.backgroundColor = circle1.second_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_2_blue.oninput = () => {
   circle1.second.blue = sector_2_blue.value
   sector_2.style.backgroundColor = circle1.second_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 
 sector_3_red.oninput = () => {
   circle1.third.red = sector_3_red.value
   sector_3.style.backgroundColor = circle1.third_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_3_green.oninput = () => {
   circle1.third.green = sector_3_green.value
   sector_3.style.backgroundColor = circle1.third_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 sector_3_blue.oninput = () => {
   circle1.third.blue = sector_3_blue.value
   sector_3.style.backgroundColor = circle1.third_color
-  
+
   circle2.mix(circle1)
   solidCircle.mix(circle2)
-};
+}
 
 // FPS counter prep
 let dt = 0
 let current_time = new Date().getTime()
 let previous_time = current_time
 
-let fps_array = []
+const fps_array = []
 let current_fps = 0
 let avarage_fps = 0
-let fps_array_max_length = 10
+const fps_array_max_length = 10
 
-
-
-
-//render function
+// render function
 function render () {
   circle1.rotate(speed)
   circle2.rotate(speed)
-  
+
 
   pre_ctx.fillStyle = 'black'
   pre_ctx.fillRect(0, 0, BoxWidth, BoxHeight)
@@ -275,12 +268,11 @@ function render () {
   pre_ctx.fillStyle = '#ffff00'
   pre_ctx.fillText(avarage_fps, 5, 40, 80)
 
-
   circle1.draw(pre_ctx)
   circle2.draw(pre_ctx)
 
   solidCircle.draw(pre_ctx)
-  
+
 
   current_time = new Date().getTime()
   dt = current_time - previous_time
@@ -299,7 +291,7 @@ function render () {
 
   ctx.drawImage(pre_cvs, 0, 0)
 
-  requestAnimationFrame(render)
+  window.requestAnimationFrame(render)
 }
 
 // here we are

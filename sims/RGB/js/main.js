@@ -2,12 +2,12 @@
 
 import { Circle, Slider, Color, Stage } from './core.js'
 
-const BOXWIDTH = 620
+const BOXWIDTH = 635
 const BOXHEIGHT = 500
 
 const circle1 = new Circle(
   new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255),
-  248, 0, null
+  240, 0, null
 )
 const circle2 = new Circle(
   new Color(255, 255, 0), new Color(0, 255, 255), new Color(255, 0, 255),
@@ -31,16 +31,48 @@ circle3.drawIt = function (ctx) {
   ctx.stroke()
 }
 
-const slider1 = new Slider(
-  500, 6, 488,
+const speedSlider = new Slider(
+  500, 16, 468,
   1, 120, 1, 100
 )
 
+const firstSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  firstSectorSliders.push(
+    new Slider(
+      500 + 30, 16 + i * 156, 156,
+      1, 120, 1, 100
+    )
+  )
+}
+
+const secondSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  firstSectorSliders.push(
+    new Slider(
+      500 + 2 * 30, 16 + i * 156, 156,
+      1, 120, 1, 100
+    )
+  )
+}
+
+const thirdSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  firstSectorSliders.push(
+    new Slider(
+      500 + 3 * 30, 16 + i * 156, 156,
+      1, 120, 1, 100
+    )
+  )
+}
+
 const stage = new Stage(
   'boxCanvas', BOXWIDTH, BOXHEIGHT,
-  [circle1, circle2, circle3, slider1],
+  [circle1, circle2, circle3, speedSlider,
+     ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders],
   [circle1, circle2, circle3],
-  [slider1]
+  [speedSlider,
+    ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders]
 )
 
 function render () {

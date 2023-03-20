@@ -177,10 +177,10 @@ class Slider {
 
   isFarFrom (event) {
     if (
-      event.offsetX > this.offsetX &&
-      event.offsetX < this.offsetX + this.width &&
-      event.offsetY > this.offsetY &&
-      event.offsetY < this.offsetY + this.height
+      event.offsetX > this.offsetX - 20 &&
+      event.offsetX < this.offsetX + this.width + 20 &&
+      event.offsetY > this.offsetY - 10 &&
+      event.offsetY < this.offsetY + this.height + 10
     ) return false
 
     return true

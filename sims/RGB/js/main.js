@@ -2,8 +2,6 @@
 
 import { Circle, Slider, Color, Stage } from './core.js'
 
-console.log('uwu')
-
 const BOXWIDTH = 620
 const BOXHEIGHT = 500
 
@@ -34,13 +32,15 @@ circle3.drawIt = function (ctx) {
 }
 
 const slider1 = new Slider(
-  500, 6, 30, 488,
-  1, 120, 1, 1
+  500, 6, 488,
+  1, 120, 1, 100
 )
 
 const stage = new Stage(
   'boxCanvas', BOXWIDTH, BOXHEIGHT,
-  [circle1, circle2, circle3, slider1], [circle1, circle2, circle3]
+  [circle1, circle2, circle3, slider1],
+  [circle1, circle2, circle3],
+  [slider1]
 )
 
 function render () {

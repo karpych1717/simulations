@@ -1,26 +1,53 @@
 'use strict'
 
 class Stage {
-  constructor (id, width, height, toDraw, toEvolve) {
+  constructor (id, width, height, toDraw, toEvolve, interactive) {
     this.cvs = document.getElementById(id)
     this.ctx = this.cvs.getContext('2d', { alpha: false })
 
     this.cvs.width = width
     this.cvs.height = height
 
-    this.pre_cvs = document.createElement('canvas')
-    this.pre_ctx = this.pre_cvs.getContext('2d', { alpha: false })
+    this.prepCVS = document.createElement('canvas')
+    this.prepCTX = this.prepCVS.getContext('2d', { alpha: false })
 
-    this.pre_cvs.width = width
-    this.pre_cvs.height = height
+    this.prepCVS.width = width
+    this.prepCVS.height = height
 
-    this.pre_ctx.lineWidth = 7
-    this.pre_ctx.strokeStyle = 'black'
+    this.prepCTX.lineWidth = 7
+    this.prepCTX.strokeStyle = 'black'
 
-    this.pre_ctx.font = '40px serif'
+    this.prepCTX.font = '40px serif'
 
     this.toDraw = toDraw
     this.toEvolve = toEvolve
+
+    this.onTarget = null
+    this.interactive = interactive
+
+    this.cvs.addEventListener('pointerdown', (event) =>{
+      for (const obj of this.interactive) {
+        if (obj.isUnder(event)) {
+          obj.onPointerDown(event)
+          if (obj.mobile) this.onTarget = obj
+        }
+      }
+    })
+
+    this.cvs.addEventListener('pointermove', (event) =>{
+      if (this.onTarget === null) return
+
+      if (this.onTarget.isFarFrom(event)) {
+        this.onTarget = null
+      } else {
+        this.onTarget.onPointerMove(event)
+      }
+      
+    })
+
+    this.cvs.addEventListener('pointerup', (event) =>{
+      this.onTarget = null    
+    })
   }
 
   evolveAll () {
@@ -31,10 +58,10 @@ class Stage {
 
   drawAll () {
     this.toDraw.forEach(obj => {
-      obj.drawIt(this.pre_ctx)
+      obj.drawIt(this.prepCTX)
     })
 
-    this.ctx.drawImage(this.pre_cvs, 0, 0)
+    this.ctx.drawImage(this.prepCVS, 0, 0)
   }
 }
 
@@ -81,23 +108,110 @@ class Color {
 }
 
 class Slider {
-  constructor (x, y, width, height, min, max, step, initVal) {
+  constructor (x, y, height, min, max, step, initVal) {
+    this.mobile = true
+
     this.offsetX = x
     this.offsetY = y
 
-    this.width = width
+    this.width =  30
+    this.padding = 10
     this.height = height
 
-    this.min = min
-    this.max = max
-    this.step = step
+    this.circleR = 9
+
+    this.circleX = this.offsetX + this.padding + 5
+    this.circleMinY = this.offsetY + this.padding + 5
+    this.circleMaxY = this.offsetY + this.height - this.padding - 5
+
+    this.values = []
+    for (let val = min; val < max; val += step) {
+      this.values.push(val)
+    }
+    this.values.push(max)
+
     this.val = initVal
+
+    this.circleY = this.valIntoY(this.val)
+  }
+
+  valIntoY (val) {
+    const relative = (val - this.values[0]) / (this.values[this.values.length - 1] - this.values[0])
+    const y = this.circleMaxY - Math.round(relative * (this.circleMaxY - this.circleMinY))
+
+    return y
+  }
+
+  yIntoVal (inputY) {
+    let y = inputY
+    if (y < this.circleMinY) y = this.circleMinY
+    if (y > this.circleMaxY) y = this.circleMaxY
+
+    const relative = (this.circleMaxY - y) / (this.circleMaxY - this.circleMinY)
+    const index = Math.round(relative * (this.values.length - 1))
+
+    return this.values[index]
+  }
+
+  onPointerDown (event) {
+    this.val = this.yIntoVal(event.offsetY)
+    this.circleY = this.valIntoY(this.val)
+  }
+
+  onPointerMove (event) {
+    this.val = this.yIntoVal(event.offsetY)
+    this.circleY = this.valIntoY(this.val)
+  }
+
+  isUnder (event) {
+    if (Math.hypot(event.offsetX - this.circleX, event.offsetY - this.circleY) <= this.circleR) return true
+    if (
+      event.offsetX > this.circleX - 5 &&
+      event.offsetX < this.circleX + 5 &&
+      event.offsetY > this.circleMinY &&
+      event.offsetY < this.circleMaxY
+    ) return true
+
+    return false
+  }
+
+  isFarFrom (event) {
+    if (
+      event.offsetX > this.offsetX &&
+      event.offsetX < this.offsetX + this.width &&
+      event.offsetY > this.offsetY &&
+      event.offsetY < this.offsetY + this.height
+    ) return false
+
+    return true
   }
 
   drawIt (ctx) {
     ctx.fillStyle = 'gray'
-
     ctx.fillRect(this.offsetX, this.offsetY, this.width, this.height)
+
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.roundRect(
+      this.offsetX + this.padding, this.offsetY + this.padding,
+      10, this.height - 2 * this.padding, 5
+    )
+    ctx.fill()
+
+    ctx.fillStyle = 'blue'
+    ctx.beginPath()
+    ctx.roundRect(
+      this.offsetX + this.padding, this.circleY,
+      10, this.circleMaxY - this.circleY + 5, 5
+    )
+    ctx.fill()
+
+    ctx.beginPath()
+    ctx.arc(
+      this.circleX, this.circleY,
+      this.circleR, 0, 2 * Math.PI
+    )
+    ctx.fill()
   }
 }
 

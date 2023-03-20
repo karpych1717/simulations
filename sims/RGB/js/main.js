@@ -18,15 +18,15 @@ const circle3 = new Circle(
 
 circle3.drawIt = function (ctx) {
   ctx.fillStyle = this.first.getNormalised()
-    ctx.beginPath()
-    ctx.moveTo(this.offsetX, this.offsetY)
-    ctx.arc(this.offsetX, this.offsetY, this.radius, 0, 2 * Math.PI)
-    ctx.lineTo(this.offsetX, this.offsetY)
-    ctx.fill()
+  ctx.beginPath()
+  ctx.moveTo(this.offsetX, this.offsetY)
+  ctx.arc(this.offsetX, this.offsetY, this.radius, 0, 2 * Math.PI)
+  ctx.lineTo(this.offsetX, this.offsetY)
+  ctx.fill()
 
-    ctx.beginPath()
-    ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2)
-    ctx.stroke()
+  ctx.beginPath()
+  ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2)
+  ctx.stroke()
 }
 
 const slider1 = new Slider(

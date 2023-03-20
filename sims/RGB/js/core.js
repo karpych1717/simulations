@@ -1,3 +1,5 @@
+'use strict'
+
 class Stage {
   constructor (id, width, height, toDraw, toEvolve) {
     this.cvs = document.getElementById(id)
@@ -175,3 +177,5 @@ class Circle {
     this.rotate()
   }
 }
+
+export { Circle, Slider, Color, Stage }

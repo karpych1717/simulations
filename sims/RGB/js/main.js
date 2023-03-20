@@ -1,5 +1,9 @@
 'use strict'
 
+import { Circle, Slider, Color, Stage } from './core.js'
+
+console.log('uwu')
+
 const BOXWIDTH = 620
 const BOXHEIGHT = 500
 

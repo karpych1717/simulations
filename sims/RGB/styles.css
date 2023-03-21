@@ -1,77 +1,78 @@
 body {
-    font-family: 'American Typewriter', sans-serif;
-    background-color: LightGreen;
+  font-family: 'American Typewriter', sans-serif;
+  background-color: LightGreen;
 }
 
 header {
-    height: 55px;
+  height: 55px;
 
-    background-color: MediumSeaGreen;
+  background-color: MediumSeaGreen;
 
-    border: 2px solid DarkCyan;
-    border-radius: 15px;
+  border: 2px solid DarkCyan;
+  border-radius: 15px;
 }
 
 nav {
-    display: inline-block;
-    vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .header-link {
-    text-decoration: none;
-    font-size: 24px;
-    line-height: 2;
-    font-weight: 600;
-    color: Black;
+  text-decoration: none;
+  font-size: 24px;
+  line-height: 2;
+  font-weight: 600;
+  color: Black;
 
-    padding: 10px;
-    margin: 15px;
+  padding: 10px;
+  margin: 15px;
 }
 
 #logo {
-    vertical-align: top;
-    float: right;
+  vertical-align: top;
+  float: right;
 
-    width: 47px;
-    height: 47px;
+  width: 47px;
+  height: 47px;
 
-    padding: 4px;
+  padding: 4px;
 
-    border-radius: 15px;
+  border-radius: 15px;
 }
 
 canvas {
-    display: inline-block;
-    background-color: Black;
-    margin: 15px;
-    
-    user-select: none;
+  display: inline-block;
+  background-color: Black;
+  margin: 15px;
+  
+  user-select: none;
+  touch-action: pinch-zoom;
 }
 
 .ranges {
-    display: inline-block;
-    vertical-align:top;
+  display: inline-block;
+  vertical-align:top;
 
-    margin: 15px;
-    width: 500px;
+  margin: 15px;
+  width: 500px;
 }
 
 #speed {
-    display: block;
+  display: block;
 
-    width: 90%;
-    margin: 10px auto;
+  width: 90%;
+  margin: 10px auto;
 }
 
 .sector-color {
-    border: 1px solid green;
+  border: 1px solid green;
 
-    width: 90%;
-    margin: 10px auto;
+  width: 90%;
+  margin: 10px auto;
 }
 
 .sector-range {
-    width: 30%;
+  width: 30%;
 
-    margin: 5px 1%;
+  margin: 5px 1%;
 }

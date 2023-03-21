@@ -41,11 +41,13 @@ nav {
 }
 
 canvas {
-  margin: auto ;
-  touch-action: pinch-zoom;
+  margin: auto;
 
   background-color: White;
   margin: 15px;
+
+  user-select: none;
+  touch-action: pinch-zoom;
 }
 
 #canvas-div {

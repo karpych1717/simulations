@@ -1,5 +1,75 @@
 // engine v1.0
 'use strict'
+class FPS {
+  constructor (offsetX, offsetY, long) {
+    this.offsetX = offsetX
+    this.offsetY = offsetY
+
+    this.long = long
+    this.second = 1000
+    this.time = 0
+
+    this.values = new Array(long)
+    this.values.fill(0)
+
+    this.current = 0
+
+    this.fps = 0
+
+    this.timer = (function createTimer() {
+      let prevTime = new Date().getTime()
+    
+      return function() {
+        const currentTime = new Date().getTime()
+        const elapsedMs = currentTime - prevTime
+        prevTime = currentTime
+        return elapsedMs < 40 ? elapsedMs : 40
+      }
+    })()
+  }
+
+  evolveIt () {
+    this.time += this.timer()
+
+    if (this.time > this.second) {
+      this.time -= this.second
+      this.current += 1
+
+      if (this.current >= this.long) this.current = 0
+      this.values[this.current] = 0
+    }
+
+    this.values[this.current] += 1
+
+    this.recount()
+  }
+
+  recount () {
+    let nonZero = 0
+    let summ = 0
+
+    for (let i = 0; i < this.long; i++) {
+      if (this.values[i] === 0) continue
+      if (i === this.current) continue
+
+      summ += this.values[i]
+      nonZero++
+    }
+
+    if (nonZero > 0) this.fps = Math.trunc(summ / nonZero)
+
+    console.log(this.values)
+  }
+
+  drawIt (ctx) {
+    ctx.font = '48px serif'
+
+    ctx.fillStyle = 'yellow'
+
+    ctx.clearRect(10, 0, 100, 50)
+    ctx.fillText(this.fps, this.offsetX, this.offsetY, 100)
+  }
+}
 
 class Stage {
   constructor (id, width, height, toDraw, toEvolve, interactive) {
@@ -315,4 +385,4 @@ class Circle {
   }
 }
 
-export { Circle, Slider, Color, Stage }
+export { Circle, Slider, Color, Stage, FPS }

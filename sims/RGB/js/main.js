@@ -1,6 +1,6 @@
 'use strict'
 
-import { Circle, Slider, Color, Stage } from './core.js'
+import { Circle, Slider, Color, Stage, FPS } from './core.js'
 
 const BOXWIDTH = 635
 const BOXHEIGHT = 500
@@ -101,11 +101,13 @@ secondSectorSliders[2].setClients([ segmentColors[5] ], 'blue')
 thirdSectorSliders[2].color = 'rgb(0, 0, 255)'
 thirdSectorSliders[2].setClients([ segmentColors[6] ], 'blue')
 
+const fps = new FPS(10, 45, 5)
+
 const stage = new Stage(
   'boxCanvas', BOXWIDTH, BOXHEIGHT,
-  [circle1, circle2, circle3, speedSlider,
+  [fps, circle1, circle2, circle3, speedSlider,
      ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders],
-  [circle1, circle2, circle3],
+  [fps, circle1, circle2, circle3],
   [speedSlider,
     ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders]
 )

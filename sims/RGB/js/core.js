@@ -1,3 +1,4 @@
+// engine v1.0
 'use strict'
 
 class Stage {

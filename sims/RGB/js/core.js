@@ -68,7 +68,7 @@ class Stage {
 }
 
 class Color {
-  constructor (red, green, blue) {
+  constructor (red = 0, green = 0, blue = 0) {
     this._red = red
     this._green = green
     this._blue = blue
@@ -110,8 +110,11 @@ class Color {
 }
 
 class Slider {
-  constructor (x, y, height, min, max, step, initVal) {
+  constructor (x, y, height, min, max, step, initVal, color = 'rgb(50, 50, 200)') {
     this.mobile = true
+    this.clients = null
+    this.clientsField = null
+    this.color = color
 
     this.offsetX = x
     this.offsetY = y
@@ -137,6 +140,19 @@ class Slider {
     this.circleY = this.valIntoY(this.val)
   }
 
+  setClients (arr, field) {
+    this.clients = arr
+    this.clientsField = field
+
+    this.setClientsVal()
+  }
+
+  setClientsVal () {
+    for (const client of this.clients) {
+      client[this.clientsField] = this.val
+    }
+  }
+
   valIntoY (val) {
     const relative = (val - this.values[0]) / (this.values[this.values.length - 1] - this.values[0])
     const y = this.circleMaxY - Math.round(relative * (this.circleMaxY - this.circleMinY))
@@ -158,11 +174,15 @@ class Slider {
   onPointerDown (event) {
     this.val = this.yIntoVal(event.offsetY)
     this.circleY = this.valIntoY(this.val)
+
+    this.setClientsVal()
   }
 
   onPointerMove (event) {
     this.val = this.yIntoVal(event.offsetY)
     this.circleY = this.valIntoY(this.val)
+
+    this.setClientsVal()
   }
 
   isUnder (event) {
@@ -200,7 +220,7 @@ class Slider {
     )
     ctx.fill()
 
-    ctx.fillStyle = 'blue'
+    ctx.fillStyle = this.color
     ctx.beginPath()
     ctx.roundRect(
       this.offsetX + this.padding, this.circleY,
@@ -279,9 +299,9 @@ class Circle {
   mix () {
     if (this.parent === null) return
 
-    this.first.mix(this.parent.third, this.parent.first)
-    this.second.mix(this.parent.first, this.parent.second)
-    this.third.mix(this.parent.second, this.parent.third)
+    this.first.mix(this.parent.first, this.parent.second)
+    this.second.mix(this.parent.second, this.parent.third)
+    this.third.mix(this.parent.third, this.parent.first)
   }
 
   rotate () {

@@ -2,7 +2,7 @@
 
 import { Circle, Slider, Color, Stage, FPS } from './core.js'
 
-const BOXWIDTH = 635
+const BOXWIDTH = 640
 const BOXHEIGHT = 500
 
 const segmentColors = [
@@ -46,7 +46,7 @@ const firstSectorSliders = []
 for (let i = 0; i < 3; i++) {
   firstSectorSliders.push(
     new Slider(
-      500 + 30, 16 + i * 156, 156,
+      500 + 35 + i * 30, 16, 152,
       0, 255, 1, i === 0 ? 255 : 0
     )
   )
@@ -56,7 +56,7 @@ const secondSectorSliders = []
 for (let i = 0; i < 3; i++) {
   secondSectorSliders.push(
     new Slider(
-      500 + 2 * 30, 16 + i * 156, 156,
+      500 + 35 + i * 30, 16 + 2 + 156, 152,
       0, 255, 1, i === 1 ? 255 : 0
     )
   )
@@ -66,7 +66,7 @@ const thirdSectorSliders = []
 for (let i = 0; i < 3; i++) {
   thirdSectorSliders.push(
     new Slider(
-      500 + 3 * 30, 16 + i * 156, 156,
+      500 + 35 + i * 30, 16 + 4 + 2 * 156, 152,
       0, 255, 1, i === 2 ? 255 : 0
     )
   )

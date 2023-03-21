@@ -14,7 +14,7 @@ class FPS {
 
     this.current = 0
 
-    this.fps = 0
+    this.fps = '- -'
 
     this.timer = (function createTimer() {
       let prevTime = new Date().getTime()

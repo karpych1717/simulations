@@ -1,47 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>RGB</title>
+  <title>RGB</title>
 
-    <link rel='icon' type='image/png' href='./sims_logo.png'>
+  <link rel='icon' type='image/png' href='./sims_logo.png'>
 
-    <link rel='stylesheet' type='text/css' href='./styles.css'>
+  <link rel='stylesheet' type='text/css' href='./styles.css'>
+
+  <script type='module' src='js/core.js'></script>
+  <script type='module' src='js/main.js'></script>
 </head>
 <body>
+  <header>
+    <nav>
+      <a class='header-link' id='sims-link' href='../../index.html'>Simulations</a>
+      <a class='header-link' id='about-link' href='../../about/index.html'>About</a>
+    </nav>
 
-    <header>
-        <nav>
-            <a class='header-link' id='sims-link' href='../../index.html'>Simulations</a>
-            <a class='header-link' id='about-link' href='../../about/index.html'>About</a>
-        </nav>
+      <img id='logo' src='./sims_logo.png' alt='logo' width='59px' height='59px'/>
+  </header>
 
-            <img id='logo' src='./sims_logo.png' alt='logo' width='59px' height='59px'/>
-
-    </header>
-
-    <canvas id='boxCanvas' ></canvas>
-    <div class='ranges'>
-        <input id="speed" type="range" min="1" max="120" step="1" />
-
-        <div class='sector-color' id='sector-1'>
-            <input class='sector-range' id='sector-1-red'   type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-1-green' type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-1-blue'  type="range" min="0" max="255" step="1" />
-        </div>
-
-        <div class='sector-color' id='sector-2'>
-            <input class='sector-range' id='sector-2-red'   type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-2-green' type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-2-blue'  type="range" min="0" max="255" step="1" />
-        </div>
-
-        <div class='sector-color' id='sector-3'>
-            <input class='sector-range' id='sector-3-red'   type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-3-green' type="range" min="0" max="255" step="1" />
-            <input class='sector-range' id='sector-3-blue'  type="range" min="0" max="255" step="1" />
-        </div>
-    </div>
-
-    <script src='js/engine.js'></script>
+  <canvas id='boxCanvas' ></canvas>
 </body>
 </html>

@@ -1,52 +1,120 @@
 'use strict'
 
-const BOXWIDTH  = 620
+import { Circle, Slider, Color, Stage } from './core.js'
+
+const BOXWIDTH = 635
 const BOXHEIGHT = 500
 
+const segmentColors = [
+  new Color(),
+  new Color(), new Color(), new Color(),
+  new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)
+]
 
 const circle1 = new Circle(
-    new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255),
-    248, 0, null
+  segmentColors[4], segmentColors[5], segmentColors[6],
+  240, 0, null
 )
 const circle2 = new Circle(
-    new Color(255, 255, 0), new Color(0, 255, 255), new Color(255, 0, 255),
-    110, Math.PI / 3, circle1
+  segmentColors[1], segmentColors[2], segmentColors[3],
+  110, Math.PI / 3, circle1
 )
 const circle3 = new Circle(
-    new Color(255, 255, 255), new Color(255, 255, 255), new Color(255, 255, 255),
-    35, 0, circle2
+  segmentColors[0], segmentColors[0], segmentColors[0],
+  35, 0, circle2
 )
 
-circle3.drawIt = function(ctx) {
-    ctx.fillStyle = this.first.getNormalised();
-    ctx.beginPath();
-    ctx.moveTo(this.offsetX, this.offsetY);
-    ctx.arc(this.offsetX, this.offsetY, this.radius, 0, 2 * Math.PI);
-    ctx.lineTo(this.offsetX, this.offsetY);
-    ctx.fill();
+circle3.drawIt = function (ctx) {
+  ctx.fillStyle = this.first.getNormalised()
+  ctx.beginPath()
+  ctx.moveTo(this.offsetX, this.offsetY)
+  ctx.arc(this.offsetX, this.offsetY, this.radius, 0, 2 * Math.PI)
+  ctx.lineTo(this.offsetX, this.offsetY)
+  ctx.fill()
 
-    ctx.beginPath();
-    ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2);
-    ctx.stroke();
+  ctx.beginPath()
+  ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2)
+  ctx.stroke()
 }
 
-
-const slider1 = new Slider(
-    500, 6, 30, 488,
-    1, 120, 1, 1
+const speedSlider = new Slider(
+  500, 16, 468,
+  0, 120, 1, 1
 )
+
+const firstSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  firstSectorSliders.push(
+    new Slider(
+      500 + 30, 16 + i * 156, 156,
+      0, 255, 1, i === 0 ? 255 : 0
+    )
+  )
+}
+
+const secondSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  secondSectorSliders.push(
+    new Slider(
+      500 + 2 * 30, 16 + i * 156, 156,
+      0, 255, 1, i === 1 ? 255 : 0
+    )
+  )
+}
+
+const thirdSectorSliders = []
+for (let i = 0; i < 3; i++) {
+  thirdSectorSliders.push(
+    new Slider(
+      500 + 3 * 30, 16 + i * 156, 156,
+      0, 255, 1, i === 2 ? 255 : 0
+    )
+  )
+}
+
+speedSlider.setClients([ circle1, circle2 ], 'speed')
+
+firstSectorSliders[0].color = 'rgb(255, 0, 0)'
+firstSectorSliders[0].setClients([ segmentColors[4] ], 'red')
+
+secondSectorSliders[0].color = 'rgb(255, 0, 0)'
+secondSectorSliders[0].setClients([ segmentColors[5] ], 'red')
+
+thirdSectorSliders[0].color = 'rgb(255, 0, 0)'
+thirdSectorSliders[0].setClients([ segmentColors[6] ], 'red')
+
+firstSectorSliders[1].color = 'rgb(0, 255, 0)'
+firstSectorSliders[1].setClients([ segmentColors[4] ], 'green')
+
+secondSectorSliders[1].color = 'rgb(0, 255, 0)'
+secondSectorSliders[1].setClients([ segmentColors[5] ], 'green')
+
+thirdSectorSliders[1].color = 'rgb(0, 255, 0)'
+thirdSectorSliders[1].setClients([ segmentColors[6] ], 'green')
+
+firstSectorSliders[2].color = 'rgb(0, 0, 255)'
+firstSectorSliders[2].setClients([ segmentColors[4] ], 'blue')
+
+secondSectorSliders[2].color = 'rgb(0, 0, 255)'
+secondSectorSliders[2].setClients([ segmentColors[5] ], 'blue')
+
+thirdSectorSliders[2].color = 'rgb(0, 0, 255)'
+thirdSectorSliders[2].setClients([ segmentColors[6] ], 'blue')
 
 const stage = new Stage(
-    'boxCanvas', BOXWIDTH, BOXHEIGHT,
-    [circle1, circle2, circle3, slider1], [circle1, circle2, circle3]
+  'boxCanvas', BOXWIDTH, BOXHEIGHT,
+  [circle1, circle2, circle3, speedSlider,
+     ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders],
+  [circle1, circle2, circle3],
+  [speedSlider,
+    ...firstSectorSliders, ...secondSectorSliders, ...thirdSectorSliders]
 )
 
+function render () {
+  stage.evolveAll()
+  stage.drawAll()
 
-function render() {    
-    stage.evolveAll()
-    stage.drawAll()
-
-    requestAnimationFrame(render);
+  window.requestAnimationFrame(render)
 }
 
 render()

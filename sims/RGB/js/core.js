@@ -57,8 +57,6 @@ class FPS {
     }
 
     if (nonZero > 0) this.fps = Math.trunc(summ / nonZero)
-
-    console.log(this.values)
   }
 
   drawIt (ctx) {

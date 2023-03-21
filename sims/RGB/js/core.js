@@ -27,11 +27,13 @@ class Stage {
 
     this.cvs.addEventListener('pointerdown', (event) =>{
       for (const obj of this.interactive) {
-        if (obj.isUnder(event)) {
-          obj.onPointerDown(event)
-          if (obj.mobile) this.onTarget = obj
-        }
+        if (obj.isUnder(event)) this.onTarget = obj
       }
+
+      if (this.onTarget === null) return
+      if (this.onTarget.mobile) return
+      
+      this.onTarget = null
     })
 
     this.cvs.addEventListener('pointermove', (event) =>{

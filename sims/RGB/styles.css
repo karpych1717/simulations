@@ -44,6 +44,8 @@ canvas {
     display: inline-block;
     background-color: Black;
     margin: 15px;
+    
+    user-select: none;
 }
 
 .ranges {

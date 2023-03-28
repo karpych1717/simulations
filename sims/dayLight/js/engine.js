@@ -44,8 +44,6 @@ const BoxWidth  = 500;
 
 cvs.height = BoxHeight;
 cvs.width  = BoxWidth;
-cvs.style.border  = '2px solid green';
-
 
 pre_cvs.height = BoxHeight;
 pre_cvs.width  = BoxWidth;

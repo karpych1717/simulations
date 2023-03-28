@@ -7,7 +7,6 @@ const BoxWidth  = 500;
 
 BoxCVS.height = BoxHeight;
 BoxCVS.width  = BoxWidth;
-BoxCVS.style.border  = '2px solid green';
 
 
 const InfoCVS = document.getElementById('infoCanvas');
@@ -17,7 +16,6 @@ const InfoWidth = 500;
 
 InfoCVS.height = BoxHeight;
 InfoCVS.width  = InfoWidth;
-InfoCVS.style.border = '2px solid green';
 
 InfoCTX.font = '25px Arial';
 

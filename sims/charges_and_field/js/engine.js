@@ -516,7 +516,6 @@ const ctx = cvs.getContext('2d')
 
 cvs.width  = PADDING + MAINBOX_SIZE + SUBBOX_SIZE + PADDING
 cvs.height = PADDING + MAINBOX_SIZE + PADDING
-cvs.style.border  = '2px solid green'
 
 
 const pre_cvs = document.createElement("canvas")

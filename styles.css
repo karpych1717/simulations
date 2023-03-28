@@ -7,6 +7,10 @@ html {
 body {    
     background-color: #040414;
     margin: 5%;
+
+    margin-top: 2em;
+
+    min-height: 40em;
 }
 
 header {
@@ -51,12 +55,6 @@ nav {
     border-radius: 0.5em;
 }
 
-#sims-list-link {
-    background-color: DarkCyan; 
-
-    border-radius: 0 0 15px 15px;
-}
-
 #logo {
     display: inline-block;
     vertical-align: middle;
@@ -87,3 +85,18 @@ nav {
     background-color: DarkCyan;
     border-radius: 10px;
 }
+
+.pure-text {
+    margin: 15px;
+    
+    font-size: 24px;
+    line-height: 2;
+    font-weight: 300;
+    color: #b39ac9;
+  
+    text-align: center;
+  }
+  
+  .pure-text > a {
+    color: #95b0e0;
+  }

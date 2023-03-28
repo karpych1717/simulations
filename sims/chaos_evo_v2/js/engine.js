@@ -430,7 +430,6 @@ const BoxHeight = 500;
 
 cvs.width  = BoxWidth;
 cvs.height = BoxHeight;
-cvs.style.border  = '2px solid grey';
 
 
 //events

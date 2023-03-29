@@ -13,7 +13,7 @@ negBigPic.src = './img/negative_big.png'
 posSmallPic.src = './img/positive_small.png'
 posBigPic.src = './img/positive_big.png'
 
-arrowPic.src = './img/arrow.png'
+arrowPic.src = './img/wArrow.png'
 
 // class prep
 class Circle {
@@ -33,7 +33,7 @@ class Circle {
 }
 
 class Rectangle {
-  constructor (x, y, width, height, backColor = 'white', borderColor = 'black') {
+  constructor (x, y, width, height, backColor = '#161935', borderColor = 'darkCyan') {
     this.offsetX = x
     this.offsetY = y
     this.width = width
@@ -468,10 +468,10 @@ const SUBBOX_SIZE = MAINBOX_SIZE / 4
 const PADDING = 10
 
 const mainBox = new Box(PADDING, PADDING, MAINBOX_SIZE, MAINBOX_SIZE)
-const subBox1 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 0 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'cyan')
-const subBox2 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 1 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'pink')
-const subBox3 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 2 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'blue')
-const subBox4 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 3 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, 'red')
+const subBox1 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 0 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#229dff')
+const subBox2 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 1 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#ff4b87')
+const subBox3 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 2 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#0000ff')
+const subBox4 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 3 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#ff0000')
 
 // canvas
 const cvs = document.getElementById('boxCanvas')
@@ -523,8 +523,8 @@ function render () {
   dt = Math.min(dt, maxDt)
   prev = now
 
-  preCTX.fillStyle = 'white'
-  preCTX.fillRect(0, 0, preCVS.width, preCVS.height)
+  // preCTX.fillStyle = 'white'
+  preCTX.clearRect(0, 0, preCVS.width, preCVS.height)
 
   mainBox.drawIt(preCTX)
   subBox1.drawIt(preCTX)
@@ -540,6 +540,7 @@ function render () {
     ball.drawIt(preCTX)
   }
 
+  ctx.clearRect(0, 0, cvs.width, cvs.height)
   ctx.drawImage(preCVS, 0, 0)
 
   for (let i = 0; i < accuracy; i++) {

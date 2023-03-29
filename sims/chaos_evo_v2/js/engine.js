@@ -23,7 +23,7 @@ class Slider {
   }
 
   drawIt () {
-    ctx.fillStyle = 'green'
+    ctx.fillStyle = '#01eb01'
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
     ctx.fill()
@@ -172,15 +172,15 @@ class Button {
   }
 
   drawIt (ctx) {
-    ctx.lineWidth = 10
-    ctx.strokeStyle = 'Grey'
+    ctx.lineWidth = 7
+    ctx.strokeStyle = 'darkCyan'
     ctx.strokeRect(this.x, this.y, this.width, this.height)
 
-    ctx.fillStyle = 'Chartreuse'
+    ctx.fillStyle = '#040414'
     ctx.fillRect(this.x, this.y, this.width, this.height)
 
-    ctx.fillStyle = '#007FFF'
-    ctx.font = '32px serif'
+    ctx.fillStyle = '#95b0e0'
+    ctx.font = '25px serif'
     ctx.fillText(this.text, this.x + 3, this.y + this.height / 2 + 10, this.width - 3)
   }
 
@@ -222,8 +222,8 @@ const axes = {
   },
 
   drawFrame: function (ctx) {
-    ctx.lineWidth = 10
-    ctx.strokeStyle = 'Grey'
+    ctx.lineWidth = 7
+    ctx.strokeStyle = 'darkCyan'
     ctx.strokeRect(this.x, this.y, this.width, this.height)
   },
 
@@ -347,7 +347,7 @@ axes.slidersInit()
 
 const buttons = []
 
-buttons.push(new Button('Q', AXES_X + AXES_WIDTH + 20, AXES_Y + AXES_HEIGHT + 20, 50, 50))
+buttons.push(new Button('  Q', AXES_X + AXES_WIDTH + 20, AXES_Y + AXES_HEIGHT + 20, 50, 50))
 buttons[0].click = () => {
   axes.seriesInit()
   axes.slidersInit()

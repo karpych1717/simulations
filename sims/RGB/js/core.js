@@ -64,7 +64,6 @@ class FPS {
 
     ctx.fillStyle = 'yellow'
 
-    ctx.clearRect(10, 0, 100, 50)
     ctx.fillText(this.fps, this.offsetX, this.offsetY, 100)
   }
 }
@@ -72,13 +71,13 @@ class FPS {
 class Stage {
   constructor (id, width, height, toDraw, toEvolve, interactive) {
     this.cvs = document.getElementById(id)
-    this.ctx = this.cvs.getContext('2d', { alpha: false })
+    this.ctx = this.cvs.getContext('2d', /*{ alpha: false }*/)
 
     this.cvs.width = width
     this.cvs.height = height
 
     this.prepCVS = document.createElement('canvas')
-    this.prepCTX = this.prepCVS.getContext('2d', { alpha: false })
+    this.prepCTX = this.prepCVS.getContext('2d', /*{ alpha: false }*/)
 
     this.prepCVS.width = width
     this.prepCVS.height = height
@@ -128,10 +127,13 @@ class Stage {
   }
 
   drawAll () {
+    this.prepCTX.clearRect(0, 0, this.prepCVS.width, this.prepCVS.height)
+
     this.toDraw.forEach(obj => {
       obj.drawIt(this.prepCTX)
     })
 
+    this.ctx.clearRect(0, 0, this.cvs.width, this.cvs.height)
     this.ctx.drawImage(this.prepCVS, 0, 0)
   }
 }
@@ -278,10 +280,10 @@ class Slider {
   }
 
   drawIt (ctx) {
-    ctx.fillStyle = 'gray'
+    ctx.fillStyle = 'rgb(35, 35, 85)'
     ctx.fillRect(this.offsetX, this.offsetY, this.width, this.height)
 
-    ctx.fillStyle = 'white'
+    ctx.fillStyle = 'rgb(190, 155, 165)'
     ctx.beginPath()
     ctx.roundRect(
       this.offsetX + this.padding, this.offsetY + this.padding,

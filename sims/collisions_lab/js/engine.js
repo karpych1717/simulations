@@ -1,6 +1,6 @@
 // balls prep
-const grayPic = new Image()
-const violPic = new Image()
+const grayPic = new window.Image()
+const violPic = new window.Image()
 
 grayPic.src = './img/gray.png'
 violPic.src = './img/violet.png'

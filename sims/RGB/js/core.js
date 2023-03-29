@@ -282,7 +282,7 @@ class Slider {
     ctx.fillStyle = 'rgb(35, 45, 75)'
     ctx.fillRect(this.offsetX, this.offsetY, this.width, this.height)
 
-    ctx.fillStyle = 'rgb(250, 60, 200)'
+    ctx.fillStyle = 'rgb(250, 0, 180)'
     ctx.beginPath()
     ctx.roundRect(
       this.offsetX + this.padding, this.offsetY + this.padding,

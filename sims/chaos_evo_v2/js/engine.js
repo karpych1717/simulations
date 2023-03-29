@@ -23,10 +23,16 @@ class Slider {
   }
 
   drawIt () {
-    ctx.fillStyle = '#01eb01'
+    ctx.fillStyle = '#01ebff'
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
     ctx.fill()
+
+    ctx.lineWidth = 2
+    ctx.strokeStyle = '#000000'
+    ctx.beginPath()
+    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+    ctx.stroke()
   }
 
   isOverIt (event) {

@@ -470,8 +470,8 @@ const PADDING = 10
 const mainBox = new Box(PADDING, PADDING, MAINBOX_SIZE, MAINBOX_SIZE)
 const subBox1 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 0 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#229dff')
 const subBox2 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 1 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#ff4b87')
-const subBox3 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 2 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#0000ff')
-const subBox4 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 3 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#ff0000')
+const subBox3 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 2 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#0000b2')
+const subBox4 = new Rectangle(PADDING + MAINBOX_SIZE, PADDING + 3 * SUBBOX_SIZE, SUBBOX_SIZE, SUBBOX_SIZE, '#cf0202')
 
 // canvas
 const cvs = document.getElementById('boxCanvas')

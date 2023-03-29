@@ -16,10 +16,10 @@ class FPS {
 
     this.fps = '- -'
 
-    this.timer = (function createTimer() {
+    this.timer = (function createTimer () {
       let prevTime = new Date().getTime()
-    
-      return function() {
+
+      return function () {
         const currentTime = new Date().getTime()
         const elapsedMs = currentTime - prevTime
         prevTime = currentTime
@@ -71,13 +71,13 @@ class FPS {
 class Stage {
   constructor (id, width, height, toDraw, toEvolve, interactive) {
     this.cvs = document.getElementById(id)
-    this.ctx = this.cvs.getContext('2d', /*{ alpha: false }*/)
+    this.ctx = this.cvs.getContext('2d')
 
     this.cvs.width = width
     this.cvs.height = height
 
     this.prepCVS = document.createElement('canvas')
-    this.prepCTX = this.prepCVS.getContext('2d', /*{ alpha: false }*/)
+    this.prepCTX = this.prepCVS.getContext('2d'/* , { alpha: false } */)
 
     this.prepCVS.width = width
     this.prepCVS.height = height
@@ -93,18 +93,18 @@ class Stage {
     this.onTarget = null
     this.interactive = interactive
 
-    this.cvs.addEventListener('pointerdown', (event) =>{
+    this.cvs.addEventListener('pointerdown', (event) => {
       for (const obj of this.interactive) {
         if (obj.isUnder(event)) this.onTarget = obj
       }
 
       if (this.onTarget === null) return
       if (this.onTarget.mobile) return
-      
+
       this.onTarget = null
     })
 
-    this.cvs.addEventListener('pointermove', (event) =>{
+    this.cvs.addEventListener('pointermove', (event) => {
       if (this.onTarget === null) return
 
       if (this.onTarget.isFarFrom(event)) {
@@ -112,11 +112,10 @@ class Stage {
       } else {
         this.onTarget.onPointerMove(event)
       }
-      
     })
 
-    this.cvs.addEventListener('pointerup', (event) =>{
-      this.onTarget = null    
+    this.cvs.addEventListener('pointerup', (event) => {
+      this.onTarget = null
     })
   }
 
@@ -190,7 +189,7 @@ class Slider {
     this.offsetX = x
     this.offsetY = y
 
-    this.width =  30
+    this.width = 30
     this.padding = 10
     this.height = height
 
@@ -323,19 +322,19 @@ class Circle {
     this.speed = 1
 
     this.parent = parent
-  };
+  }
 
   get first_color () {
     return this.first.getNormalised()
-  };
+  }
 
   get second_color () {
     return this.secong.getNormalised()
-  };
+  }
 
   get third_color () {
     return this.third.getNormalised()
-  };
+  }
 
   drawIt (ctx) {
     ctx.fillStyle = this.first.getNormalised()
@@ -365,7 +364,7 @@ class Circle {
     ctx.beginPath()
     ctx.arc(this.offsetX, this.offsetY, this.radius, 0, Math.PI * 2)
     ctx.stroke()
-  };
+  }
 
   mix () {
     if (this.parent === null) return
@@ -377,7 +376,7 @@ class Circle {
 
   rotate () {
     this.angle -= this.speed / 180 * Math.PI
-  };
+  }
 
   evolveIt () {
     this.mix()

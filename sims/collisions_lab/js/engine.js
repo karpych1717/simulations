@@ -224,11 +224,11 @@ cvs.width = BoxWidth
 cvs.height = BoxHeight
 
 // events
-cvs.addEventListener('mousedown', targetOnClick)
+cvs.addEventListener('pointerdown', targetOnClick)
 
-cvs.addEventListener('mousemove', moveByMouse)
+cvs.addEventListener('pointermove', moveByMouse)
 
-window.addEventListener('mouseup', releaseTarget)
+window.addEventListener('pointerup', releaseTarget)
 
 // init variables
 

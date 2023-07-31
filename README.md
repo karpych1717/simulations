@@ -1,4 +1,4 @@
 # simulations
-physics via javascript
+*physics via javascript*
 
-[pages: karpych1717.github.io/simulations/](https://karpych1717.github.io/simulations/)
+pages: [karpych1717.github.io/simulations/](https://karpych1717.github.io/simulations/)

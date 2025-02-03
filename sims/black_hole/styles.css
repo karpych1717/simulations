@@ -1,0 +1,23 @@
+#canvas-wrapper {
+  display: inline-block;
+  position: relative;
+
+  margin: 10px;
+  text-align: center;
+}
+
+#back-canvas {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  background-color: #030410;
+}
+
+#draw-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: transparent;
+}

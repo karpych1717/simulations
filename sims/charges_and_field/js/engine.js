@@ -146,11 +146,14 @@ class ChargedBall extends Circle {
   moveByField (dt) {
     collide()
 
-    this.Vx += dt * this.Fx
-    this.Vy += dt * this.Fy
+    this.Vx += dt * this.Fx / 2
+    this.Vy += dt * this.Fy / 2
 
     this.offsetX += dt * this.Vx
     this.offsetY += dt * this.Vy
+
+    this.Vx += dt * this.Fx / 2
+    this.Vy += dt * this.Fy / 2
 
     this.box.wallEffect(this)
   }

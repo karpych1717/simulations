@@ -215,10 +215,7 @@ class Arrow {
       this.Fy += tempFy
     }
 
-    this.angle = Math.atan(this.Fy / this.Fx)
-    if (this.Fx < 0) {
-      this.angle += Math.PI
-    }
+    this.angle = Math.atan2(this.Fy, this.Fx)
 
     this.opacity = 1 - Math.exp(-1000 * (Math.abs(this.Fx) + Math.abs(this.Fy)))
   }
